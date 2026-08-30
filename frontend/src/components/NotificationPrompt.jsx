@@ -65,26 +65,26 @@ function NotificationPrompt() {
     <section className="app-panel grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center" aria-labelledby="notification-heading">
       <div>
         <p className="section-kicker">PWA notifications</p>
-        <h2 id="notification-heading" className="mt-2 text-3xl font-black text-slate-950 dark:text-slate-50">
+        <h2 id="notification-heading" className="mt-2 font-display text-3xl font-medium text-[color:var(--text)]">
           Stay updated on fresh eco opportunities.
         </h2>
-        <p className="mt-3 leading-7 text-slate-600 dark:text-slate-300">
+        <p className="mt-3 leading-6 text-[color:var(--muted)]">
           Demonstrate browser notifications for new workshops, community events,
           and sustainable product updates.
         </p>
       </div>
 
-      <div className="rounded-3xl border border-emerald-100 bg-harvestGreen-50 p-5 dark:border-slate-800 dark:bg-slate-950">
+      <div className="rounded-2xl border border-[color:var(--border)] p-5">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">
+            <p className="text-sm font-medium text-[color:var(--muted)]">
               Permission status
             </p>
-            <p className="mt-1 text-2xl font-black text-harvestGreen dark:text-emerald-300">
+            <p className="mt-1 font-display text-2xl font-medium text-[color:var(--accent)]">
               {permissionLabels[permission] || permission}
             </p>
           </div>
-          <span className="badge bg-white text-harvestGreen dark:bg-slate-900 dark:text-emerald-300">
+          <span className="badge">
             Demo feature
           </span>
         </div>
@@ -92,7 +92,7 @@ function NotificationPrompt() {
         <div className="mt-5 flex flex-col gap-3 sm:flex-row">
           <button
             type="button"
-            className="btn-primary"
+            className="btn-primary focus-ring"
             onClick={handleEnableNotifications}
             disabled={isUnsupported}
             aria-label="Enable Urban Harvest Hub notifications"
@@ -101,7 +101,7 @@ function NotificationPrompt() {
           </button>
           <button
             type="button"
-            className="btn-secondary"
+            className="btn-secondary focus-ring"
             onClick={handleSendTestUpdate}
             disabled={isUnsupported || isDenied}
             aria-label="Send a test Urban Harvest Hub notification"
@@ -110,7 +110,7 @@ function NotificationPrompt() {
           </button>
         </div>
 
-        <p className="mt-4 text-sm leading-6 text-slate-600 dark:text-slate-300" aria-live="polite">
+        <p className="mt-4 text-sm leading-6 text-[color:var(--muted)]" aria-live="polite">
           {statusMessage}
         </p>
       </div>

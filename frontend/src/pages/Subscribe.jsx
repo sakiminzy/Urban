@@ -55,7 +55,7 @@ function Subscribe() {
       <div className="app-panel space-y-4">
         <div>
           <h1 className="page-title">{t('subscriptionTitle')}</h1>
-          <p className="mt-3 text-slate-600 dark:text-slate-300">{t('subscriptionDescription')}</p>
+          <p className="mt-3 text-[color:var(--muted)]">{t('subscriptionDescription')}</p>
         </div>
 
         {!isOnline && (
@@ -66,7 +66,7 @@ function Subscribe() {
 
         <form onSubmit={handleSubmit} className="grid gap-4">
           <label className="grid gap-2">
-            <span className="font-semibold text-slate-700 dark:text-slate-200">{t('subscriptionName')}</span>
+            <span className="font-semibold text-[color:var(--text)]">{t('subscriptionName')}</span>
             <input
               className="form-field"
               type="text"
@@ -79,7 +79,7 @@ function Subscribe() {
           </label>
 
           <label className="grid gap-2">
-            <span className="font-semibold text-slate-700 dark:text-slate-200">{t('subscriptionEmail')}</span>
+            <span className="font-semibold text-[color:var(--text)]">{t('subscriptionEmail')}</span>
             <input
               className="form-field"
               type="email"
@@ -92,7 +92,7 @@ function Subscribe() {
           </label>
 
           <label className="grid gap-2">
-            <span className="font-semibold text-slate-700 dark:text-slate-200">{t('subscriptionPreference')}</span>
+            <span className="font-semibold text-[color:var(--text)]">{t('subscriptionPreference')}</span>
             <input
               className="form-field"
               type="text"
@@ -105,7 +105,7 @@ function Subscribe() {
           </label>
 
           <label className="grid gap-2">
-            <span className="font-semibold text-slate-700 dark:text-slate-200">{t('subscriptionFrequency')}</span>
+            <span className="font-semibold text-[color:var(--text)]">{t('subscriptionFrequency')}</span>
             <select
               className="form-field"
               name="frequency"
@@ -120,7 +120,7 @@ function Subscribe() {
           </label>
 
           <label className="grid gap-2">
-            <span className="font-semibold text-slate-700 dark:text-slate-200">{t('subscriptionNotes')}</span>
+            <span className="font-semibold text-[color:var(--text)]">{t('subscriptionNotes')}</span>
             <textarea
               className="form-field min-h-[120px] resize-none"
               name="notes"
@@ -137,7 +137,7 @@ function Subscribe() {
             </p>
           )}
           {status.success && (
-            <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-300" role="status">
+            <p className="text-sm font-semibold text-[color:var(--accent)]" role="status">
               {status.success}
             </p>
           )}

@@ -19,67 +19,24 @@ function Navbar() {
   ]
 
   const linkClass = ({ isActive }) =>
-    `rounded-full px-3.5 py-2 text-sm font-semibold transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-harvestGreen focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950 ${
-      isActive
-        ? 'bg-harvestGreen text-white shadow-md shadow-emerald-900/15'
-        : 'text-slate-700 hover:bg-harvestGreen-50 hover:text-harvestGreen dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-emerald-300'
-    }`
+    `focus-ring text-base transition ${isActive ? 'text-[color:var(--accent)]' : 'text-[color:var(--text)] hover:text-[color:var(--accent)]'}`
 
   return (
-    <header className="sticky top-0 z-30 border-b border-emerald-100/80 bg-white/85 shadow-sm shadow-emerald-950/5 backdrop-blur-xl dark:border-slate-800 dark:bg-slate-950/85">
-      <nav className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8" aria-label="Primary navigation">
-        <NavLink to="/" className="flex items-center gap-3 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-harvestGreen focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950">
-          <span className="grid h-11 w-11 place-items-center rounded-2xl bg-gradient-to-br from-harvestGreen to-emerald-700 text-lg font-black text-white shadow-lg shadow-emerald-900/20">
-            UH
-          </span>
-          <span>
-            <span className="block text-lg font-black leading-tight text-slate-950 dark:text-slate-50">Urban Harvest</span>
-            <span className="block text-xs font-semibold uppercase tracking-wide text-harvestGreen dark:text-emerald-300">Hub</span>
-          </span>
-        </NavLink>
+    <header className="mx-auto flex w-full max-w-7xl items-center justify-between gap-4 px-4 pt-6 sm:px-6 lg:px-8">
+      <NavLink to="/" className="focus-ring flex h-11 w-11 items-center justify-center" aria-label="Urban Harvest Hub home">
+        <img className="h-9 w-9" src={isDarkMode ? '/images/logo_d.svg' : '/images/logo_l.svg'} alt="" />
+      </NavLink>
 
-        <div className="flex items-center gap-2 md:hidden">
-          <InstallPrompt />
-          <button
-            type="button"
-            className="rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-harvestGreen hover:text-harvestGreen focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-harvestGreen focus-visible:ring-offset-2 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:focus-visible:ring-offset-slate-950"
-            onClick={toggleDarkMode}
-            aria-pressed={isDarkMode}
-            aria-label={t('darkMode')}
-          >
-            {isDarkMode ? t('lightMode') : t('darkMode')}
-          </button>
-          <button
-            type="button"
-            className="rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-harvestGreen hover:text-harvestGreen focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-harvestGreen focus-visible:ring-offset-2 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:focus-visible:ring-offset-slate-950"
-            onClick={() => setIsOpen((current) => !current)}
-            aria-expanded={isOpen}
-            aria-controls="primary-navigation"
-            aria-label="Open primary navigation"
-          >
-            Menu
-          </button>
-        </div>
+      <nav className="hidden items-center gap-5 lg:flex" aria-label="Primary navigation">
+        {navItems.map((item) => (
+          <NavLink key={item.path} to={item.path} className={linkClass}>
+            {item.label}
+          </NavLink>
+        ))}
+      </nav>
 
-        <div id="primary-navigation" className="hidden items-center gap-2 rounded-full border border-slate-200 bg-white/80 p-2 shadow-sm dark:border-slate-800 dark:bg-slate-900/80 md:flex">
-          {navItems.map((item) => (
-            <NavLink key={item.path} to={item.path} className={linkClass}>
-              {item.label}
-            </NavLink>
-          ))}
-          <button
-            type="button"
-            className="rounded-full border border-slate-200 bg-white px-3.5 py-2 text-sm font-semibold text-slate-700 transition hover:border-harvestGreen hover:text-harvestGreen focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-harvestGreen focus-visible:ring-offset-2 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200 dark:hover:text-emerald-300 dark:focus-visible:ring-offset-slate-950"
-            onClick={toggleDarkMode}
-            aria-pressed={isDarkMode}
-            aria-label={t('darkMode')}
-          >
-            {isDarkMode ? t('lightMode') : t('darkMode')}
-          </button>
-          <InstallPrompt />
-        </div>
-
-        <div className="hidden items-center gap-2 md:flex">
+      <div className="flex items-center gap-3">
+        <div className="hidden items-center gap-2 lg:flex">
           <label className="sr-only" htmlFor="language-select">
             {t('languageLabel')}
           </label>
@@ -87,7 +44,7 @@ function Navbar() {
             id="language-select"
             value={language}
             onChange={(event) => setLanguage(event.target.value)}
-            className="rounded-full border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-harvestGreen focus-visible:ring-offset-2 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200 dark:focus-visible:ring-offset-slate-950"
+            className="focus-ring rounded-full border border-[color:var(--border)] bg-[color:var(--surface)] px-3 py-2 text-sm text-[color:var(--text)]"
           >
             <option value="en">EN</option>
             <option value="si">SI</option>
@@ -99,27 +56,77 @@ function Navbar() {
             id="role-select"
             value={role}
             onChange={(event) => setRole(event.target.value)}
-            className="rounded-full border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-harvestGreen focus-visible:ring-offset-2 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200 dark:focus-visible:ring-offset-slate-950"
+            className="focus-ring rounded-full border border-[color:var(--border)] bg-[color:var(--surface)] px-3 py-2 text-sm text-[color:var(--text)]"
           >
             <option value="member">{t('communityMember')}</option>
             <option value="admin">{t('administrator')}</option>
           </select>
         </div>
-      </nav>
+
+        <InstallPrompt />
+
+        <button
+          type="button"
+          className="focus-ring hidden h-6 w-6 items-center justify-center text-[color:var(--text)] lg:flex"
+          onClick={toggleDarkMode}
+          aria-pressed={isDarkMode}
+          aria-label={t('darkMode')}
+        >
+          <span className="material-symbols-outlined text-[22px]">
+            {isDarkMode ? 'light_mode' : 'dark_mode'}
+          </span>
+        </button>
+
+        <button
+          type="button"
+          className="focus-ring flex items-center justify-center rounded-full border border-[color:var(--border)] p-2 text-[color:var(--text)] lg:hidden"
+          onClick={() => setIsOpen((current) => !current)}
+          aria-expanded={isOpen}
+          aria-controls="primary-navigation"
+          aria-label="Open primary navigation"
+        >
+          <span className="material-symbols-outlined text-[22px]">menu</span>
+        </button>
+      </div>
 
       {isOpen && (
-        <div className="border-t border-emerald-100 bg-white/95 px-4 py-3 shadow-lg dark:border-slate-800 dark:bg-slate-950/95 md:hidden">
-          <div className="mx-auto flex max-w-6xl flex-col gap-2">
-            {navItems.map((item) => (
-              <NavLink
-                key={item.path}
-                to={item.path}
-                className={linkClass}
-                onClick={() => setIsOpen(false)}
-              >
-                {item.label}
-              </NavLink>
-            ))}
+        <div
+          id="primary-navigation"
+          className="absolute inset-x-4 top-20 z-30 flex flex-col gap-4 rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface)] px-6 py-4 text-base sm:inset-x-6 lg:hidden"
+        >
+          {navItems.map((item) => (
+            <NavLink key={item.path} to={item.path} className={linkClass} onClick={() => setIsOpen(false)}>
+              {item.label}
+            </NavLink>
+          ))}
+          <div className="flex items-center gap-2 pt-2">
+            <select
+              value={language}
+              onChange={(event) => setLanguage(event.target.value)}
+              className="focus-ring rounded-full border border-[color:var(--border)] bg-[color:var(--surface)] px-3 py-2 text-sm text-[color:var(--text)]"
+            >
+              <option value="en">EN</option>
+              <option value="si">SI</option>
+            </select>
+            <select
+              value={role}
+              onChange={(event) => setRole(event.target.value)}
+              className="focus-ring rounded-full border border-[color:var(--border)] bg-[color:var(--surface)] px-3 py-2 text-sm text-[color:var(--text)]"
+            >
+              <option value="member">{t('communityMember')}</option>
+              <option value="admin">{t('administrator')}</option>
+            </select>
+            <button
+              type="button"
+              className="focus-ring flex h-9 w-9 items-center justify-center rounded-full border border-[color:var(--border)] text-[color:var(--text)]"
+              onClick={toggleDarkMode}
+              aria-pressed={isDarkMode}
+              aria-label={t('darkMode')}
+            >
+              <span className="material-symbols-outlined text-[20px]">
+                {isDarkMode ? 'light_mode' : 'dark_mode'}
+              </span>
+            </button>
           </div>
         </div>
       )}

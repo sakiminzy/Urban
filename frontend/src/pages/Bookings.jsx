@@ -51,7 +51,7 @@ function Bookings() {
       </div>
 
       {isLoading && (
-        <p className="app-panel text-slate-600 dark:text-slate-300" role="status">
+        <p className="app-panel text-[color:var(--muted)]" role="status">
           Loading bookings...
         </p>
       )}
@@ -64,7 +64,7 @@ function Bookings() {
 
       {!isLoading && bookings.length === 0 ? (
         <div className="app-panel-soft text-center">
-          <p className="mx-auto max-w-md text-slate-600 dark:text-slate-300">
+          <p className="mx-auto max-w-md text-[color:var(--muted)]">
             No bookings have been submitted yet. Create one to see the React Context summary update instantly.
           </p>
           <Link
@@ -79,39 +79,39 @@ function Bookings() {
           {bookings.map((booking) => (
             <article
               key={booking.id}
-              className="app-panel transition duration-200 hover:-translate-y-1 hover:shadow-2xl"
+              className="app-panel"
             >
               <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
                 <div>
-                  <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
+                  <h2 className="text-xl font-semibold text-[color:var(--text)]">
                     {booking.itemTitle}
                   </h2>
-                <p className="mt-1 text-sm capitalize text-emerald-700 dark:text-emerald-300">
+                <p className="mt-1 text-sm capitalize text-[color:var(--accent)]">
                     {booking.itemType || 'booking'} on <time dateTime={booking.itemDate}>{booking.itemDate || 'pending date'}</time>
                   </p>
                 </div>
-                <p className="badge bg-harvestGreen-50 text-harvestGreen dark:bg-emerald-950 dark:text-emerald-300">
+                <p className="badge">
                   {booking.participants} participant{booking.participants === 1 ? '' : 's'}
                 </p>
               </div>
               <dl className="mt-4 grid gap-3 sm:grid-cols-2">
                 <div>
-                  <dt className="text-sm font-medium text-slate-500 dark:text-slate-400">Name</dt>
-                  <dd className="mt-1 text-slate-900 dark:text-slate-100">{booking.name}</dd>
+                  <dt className="text-sm font-medium text-[color:var(--muted)]">Name</dt>
+                  <dd className="mt-1 text-[color:var(--text)]">{booking.name}</dd>
                 </div>
                 <div>
-                  <dt className="text-sm font-medium text-slate-500 dark:text-slate-400">Email</dt>
-                  <dd className="mt-1 text-slate-900 dark:text-slate-100">{booking.email}</dd>
+                  <dt className="text-sm font-medium text-[color:var(--muted)]">Email</dt>
+                  <dd className="mt-1 text-[color:var(--text)]">{booking.email}</dd>
                 </div>
                 <div>
-                  <dt className="text-sm font-medium text-slate-500 dark:text-slate-400">Requested time</dt>
-                  <dd className="mt-1 text-slate-900 dark:text-slate-100">
+                  <dt className="text-sm font-medium text-[color:var(--muted)]">Requested time</dt>
+                  <dd className="mt-1 text-[color:var(--text)]">
                     <time dateTime={booking.bookingDateTime}>{booking.bookingDateTime}</time>
                   </dd>
                 </div>
               </dl>
               {booking.notes && (
-                <p className="mt-4 text-slate-600 dark:text-slate-300">{booking.notes}</p>
+                <p className="mt-4 text-[color:var(--muted)]">{booking.notes}</p>
               )}
             </article>
           ))}

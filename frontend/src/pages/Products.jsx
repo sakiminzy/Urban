@@ -76,7 +76,7 @@ function Products() {
       </div>
 
       {isLoading && (
-        <p className="app-panel text-slate-600 dark:text-slate-300" role="status">
+        <p className="app-panel text-[color:var(--muted)]" role="status">
           {t('loadingProducts')}
         </p>
       )}
@@ -94,7 +94,7 @@ function Products() {
           ))}
         </div>
       ) : !isLoading ? (
-        <p className="app-panel text-slate-600 dark:text-slate-300" role="status">
+        <p className="app-panel text-[color:var(--muted)]" role="status">
           {t('noMatches')}
         </p>
       ) : null}

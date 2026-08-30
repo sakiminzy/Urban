@@ -173,7 +173,7 @@ function BookingForm() {
             </option>
           ))}
         </select>
-        <p id="booking-item-help" className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+        <p id="booking-item-help" className="mt-2 text-sm text-[color:var(--muted)]">
           {t('bookingBackendStatus')}
         </p>
         {errors.itemId && <p id="booking-item-error" className="error-text">{errors.itemId}</p>}
@@ -196,7 +196,7 @@ function BookingForm() {
             max={selectedItem?.date ? `${selectedItem.date}T23:59` : undefined}
             disabled={!selectedItem}
           />
-          <p id="booking-date-time-help" className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+          <p id="booking-date-time-help" className="mt-2 text-sm text-[color:var(--muted)]">
             {selectedItem?.date
               ? `${selectedItem.title} is scheduled for ${selectedItem.date}.`
               : t('bookingItem') + ' ' + t('bookingDateTime')}
@@ -244,9 +244,9 @@ function BookingForm() {
         />
       </div>
 
-      <div className="flex flex-col gap-3 border-t border-slate-100 pt-5 dark:border-slate-800 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-sm text-slate-500 dark:text-slate-400">{t('bookingBackendStatus')}</p>
-        <button type="submit" className="btn-primary w-full sm:w-auto" disabled={isSubmitting}>
+      <div className="flex flex-col gap-3 border-t border-[color:var(--border)] pt-5 sm:flex-row sm:items-center sm:justify-between">
+        <p className="text-sm text-[color:var(--muted)]">{t('bookingBackendStatus')}</p>
+        <button type="submit" className="btn-primary focus-ring w-full sm:w-auto" disabled={isSubmitting}>
           {isSubmitting ? t('bookingSaving') : t('bookingSubmit')}
         </button>
       </div>

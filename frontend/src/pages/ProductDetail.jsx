@@ -53,7 +53,7 @@ function ProductDetail() {
   if (isLoading) {
     return (
       <section className="page-stack">
-        <p className="app-panel text-slate-600 dark:text-slate-300" role="status">
+        <p className="app-panel text-[color:var(--muted)]" role="status">
           {t('loadingProducts')}
         </p>
       </section>

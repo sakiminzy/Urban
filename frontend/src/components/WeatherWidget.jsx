@@ -57,23 +57,23 @@ function WeatherWidget() {
         <p className="section-kicker">
           Colombo weather
         </p>
-        <h2 id="weather-widget-heading" className="mt-2 text-2xl font-black text-slate-950 dark:text-slate-50">
+        <h2 id="weather-widget-heading" className="mt-2 font-display text-2xl font-medium text-[color:var(--text)]">
           Current growing conditions
         </h2>
         </div>
-        <p className="rounded-full bg-sky-50 px-4 py-2 text-sm font-bold text-sky-700 dark:bg-sky-950 dark:text-sky-300">
+        <p className="badge">
           Live API
         </p>
       </div>
 
       {isLoading && (
-        <p className="mt-4 text-slate-600 dark:text-slate-300" role="status">
+        <p className="mt-4 text-[color:var(--muted)]" role="status">
           Loading weather information...
         </p>
       )}
 
       {error && (
-        <p className="mt-4 rounded border border-red-200 bg-red-50 px-4 py-3 text-red-800" role="alert">
+        <p className="mt-4 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-red-800" role="alert">
           {error}
         </p>
       )}
@@ -81,20 +81,20 @@ function WeatherWidget() {
       {weather && !isLoading && !error && (
         <dl className="mt-4 grid gap-3 sm:grid-cols-3">
           <div className="stat-card">
-            <dt className="text-sm font-medium text-slate-500 dark:text-slate-400">Temperature</dt>
-            <dd className="mt-1 text-2xl font-bold text-slate-900 dark:text-slate-100">
+            <dt className="text-sm font-medium text-[color:var(--muted)]">Temperature</dt>
+            <dd className="mt-1 text-2xl font-semibold text-[color:var(--text)]">
               {weather.temperature}&deg;C
             </dd>
           </div>
           <div className="stat-card">
-            <dt className="text-sm font-medium text-slate-500 dark:text-slate-400">Wind speed</dt>
-            <dd className="mt-1 text-2xl font-bold text-slate-900 dark:text-slate-100">
+            <dt className="text-sm font-medium text-[color:var(--muted)]">Wind speed</dt>
+            <dd className="mt-1 text-2xl font-semibold text-[color:var(--text)]">
               {weather.windspeed} km/h
             </dd>
           </div>
           <div className="stat-card">
-            <dt className="text-sm font-medium text-slate-500 dark:text-slate-400">Weather code</dt>
-            <dd className="mt-1 text-2xl font-bold text-slate-900 dark:text-slate-100">
+            <dt className="text-sm font-medium text-[color:var(--muted)]">Weather code</dt>
+            <dd className="mt-1 text-2xl font-semibold text-[color:var(--text)]">
               {weather.weathercode}
             </dd>
           </div>

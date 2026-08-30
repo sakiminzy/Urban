@@ -48,7 +48,7 @@ function InstallPrompt() {
   return (
     <button
       type="button"
-      className="rounded-full bg-harvestGreen px-3.5 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-harvestGreen-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-harvestGreen focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950"
+      className="btn-primary focus-ring text-sm"
       onClick={handleInstall}
       aria-label="Install Urban Harvest Hub app"
     >

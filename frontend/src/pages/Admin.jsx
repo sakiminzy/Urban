@@ -183,21 +183,21 @@ function Admin() {
       <div className="app-panel space-y-6">
         <div>
           <h1 className="page-title">{t('adminTitle')}</h1>
-          <p className="mt-3 text-slate-600 dark:text-slate-300">{t('adminDescription')}</p>
+          <p className="mt-3 text-[color:var(--muted)]">{t('adminDescription')}</p>
         </div>
 
         <div className="grid gap-6 xl:grid-cols-[1.2fr_1fr]">
-          <div className="space-y-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950">
+          <div className="app-panel space-y-4">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <label className="text-sm font-semibold text-slate-700 dark:text-slate-200" htmlFor="item-type-select">
+                <label className="text-sm font-semibold text-[color:var(--text)]" htmlFor="item-type-select">
                   {t('adminTypeLabel')}
                 </label>
                 <select
                   id="item-type-select"
                   value={selectedType}
                   onChange={(event) => setSelectedType(event.target.value)}
-                  className="mt-2 block w-full max-w-xs rounded-full border border-slate-200 bg-white px-4 py-2 text-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-harvestGreen dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200"
+                  className="form-field mt-2 max-w-xs"
                 >
                   <option value="products">{t('products')}</option>
                   <option value="events">{t('events')}</option>
@@ -209,23 +209,23 @@ function Admin() {
               </button>
             </div>
 
-            <div className="overflow-hidden rounded-3xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900">
-              <h2 className="font-semibold text-slate-900 dark:text-slate-50">{currentConfig.label}</h2>
+            <div className="overflow-hidden rounded-2xl border border-[color:var(--border)] p-4">
+              <h2 className="font-semibold text-[color:var(--text)]">{currentConfig.label}</h2>
               {isLoading ? (
-                <p className="mt-4 text-slate-600 dark:text-slate-300">{t('loadingItems')}</p>
+                <p className="mt-4 text-[color:var(--muted)]">{t('loadingItems')}</p>
               ) : items.length === 0 ? (
-                <p className="mt-4 text-slate-600 dark:text-slate-300">{t('noItemsAvailable')}</p>
+                <p className="mt-4 text-[color:var(--muted)]">{t('noItemsAvailable')}</p>
               ) : (
                 <ul className="mt-4 space-y-3">
                   {items.map((item) => (
                     <li key={item.id}>
                       <button
                         type="button"
-                        className={`block w-full rounded-2xl border px-4 py-3 text-left transition ${selectedItem?.id === item.id ? 'border-harvestGreen bg-harvestGreen-50 text-harvestGreen' : 'border-slate-200 bg-white text-slate-900 hover:border-harvestGreen/50 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200'}`}
+                        className={`block w-full rounded-2xl border px-4 py-3 text-left transition ${selectedItem?.id === item.id ? 'border-[color:var(--accent)] text-[color:var(--accent)]' : 'border-[color:var(--border)] text-[color:var(--text)] hover:border-[color:var(--accent)]'}`}
                         onClick={() => selectItem(item)}
                       >
                         <span className="font-semibold">{item.title}</span>
-                        <span className="block text-sm text-slate-500 dark:text-slate-400">{item.category}</span>
+                        <span className="block text-sm text-[color:var(--muted)]">{item.category}</span>
                       </button>
                     </li>
                   ))}
@@ -234,12 +234,12 @@ function Admin() {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950">
-            <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-50">{selectedItem ? t('adminEditItem') : t('adminNewItem')}</h2>
+          <div className="app-panel">
+            <h2 className="text-xl font-semibold text-[color:var(--text)]">{selectedItem ? t('adminEditItem') : t('adminNewItem')}</h2>
             <form className="mt-6 grid gap-4" onSubmit={handleSave}>
               {currentFields.map((field) => (
                 <label key={field} className="grid gap-2">
-                  <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{fieldLabels[field] || field}</span>
+                  <span className="text-sm font-medium text-[color:var(--text)]">{fieldLabels[field] || field}</span>
                   {field === 'description' ? (
                     <textarea
                       name={field}
@@ -274,7 +274,7 @@ function Admin() {
               ))}
 
               {feedback.error && <p className="text-sm font-semibold text-rose-700 dark:text-rose-300">{feedback.error}</p>}
-              {feedback.success && <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">{feedback.success}</p>}
+              {feedback.success && <p className="text-sm font-semibold text-[color:var(--accent)]">{feedback.success}</p>}
 
               <div className="flex flex-wrap gap-3">
                 <button type="submit" className="btn-primary" disabled={feedback.loading || !isOnline}>

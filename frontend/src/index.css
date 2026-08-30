@@ -2,33 +2,58 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  --color-harvestGreen: #287a4b;
-  --color-harvestGreen-50: #edf8f1;
-  --color-harvestGreen-100: #d7f0df;
-  --color-harvestGreen-700: #20613d;
-  --color-harvestGreen-900: #123b25;
-  --color-earthBrown: #7a4a24;
-  --color-earthBrown-50: #fbf4ec;
-  --color-earthBrown-700: #663d1d;
-  --font-sans: "Urbanist", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --color-harvestGreen: #42976b;
+  --color-harvestGreen-50: #e8f3ee;
+  --color-harvestGreen-100: #d3e9df;
+  --color-harvestGreen-700: #327656;
+  --color-harvestGreen-900: #1d4433;
+  --color-earthBrown: #a6a6a6;
+  --color-earthBrown-50: #ededed;
+  --color-earthBrown-700: #606060;
+  --font-sans: "Instrument Sans", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: "Syne", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --bg: #f2f2f2;
+  --text: #111111;
+  --surface: #f2f2f2;
+  --accent: #42976b;
+  --muted: #606060;
+  --border: #cdcdcd;
+}
+
+.dark {
+  --bg: #101614;
+  --text: #f4f4f4;
+  --surface: #101614;
+  --accent: #66c595;
+  --muted: #b2b2b2;
+  --border: #2a2f2d;
 }
 
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background:
-    radial-gradient(circle at top left, rgba(40, 122, 75, 0.12), transparent 32rem),
-    linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
-  color: #1f2937;
+  background: var(--bg);
+  color: var(--text);
   font-family: var(--font-sans);
 }
 
-.dark body {
-  background:
-    radial-gradient(circle at top left, rgba(45, 212, 191, 0.12), transparent 30rem),
-    linear-gradient(180deg, #020617 0%, #0f172a 100%);
-  color: #e2e8f0;
+.material-symbols-outlined {
+  font-family: "Material Symbols Outlined";
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
 }
 
 @layer components {
@@ -37,54 +62,72 @@ body {
   }
 
   .app-panel {
-    @apply rounded-2xl border border-white/70 bg-white/90 p-6 shadow-xl shadow-emerald-950/5 backdrop-blur dark:border-slate-800/80 dark:bg-slate-900/85 dark:shadow-black/20;
+    @apply rounded-[32px] border border-[color:var(--border)] bg-[color:var(--surface)] p-6;
   }
 
   .app-panel-soft {
-    @apply rounded-2xl border border-emerald-100 bg-gradient-to-br from-white to-emerald-50/70 p-6 shadow-lg shadow-emerald-950/5 dark:border-slate-800 dark:from-slate-900 dark:to-slate-950;
+    @apply rounded-[32px] border border-[color:var(--border)] bg-[color:var(--surface)] p-6;
   }
 
   .page-hero {
-    @apply rounded-3xl border border-white/70 bg-gradient-to-br from-harvestGreen-50 via-white to-earthBrown-50 p-6 shadow-2xl shadow-emerald-950/10 dark:border-slate-800 dark:from-slate-900 dark:via-slate-950 dark:to-harvestGreen-900 sm:p-8 lg:p-10;
+    @apply rounded-[32px] border border-[color:var(--border)] bg-[color:var(--surface)] p-6 sm:p-8 lg:p-10;
   }
 
   .section-kicker {
-    @apply text-sm font-semibold uppercase tracking-wide text-harvestGreen dark:text-emerald-300;
+    @apply text-sm font-medium uppercase tracking-wide text-[color:var(--accent)];
   }
 
   .page-title {
-    @apply text-4xl font-black leading-tight text-slate-950 dark:text-slate-50 sm:text-5xl;
+    @apply font-display text-4xl font-medium leading-[1.05] tracking-tight text-[color:var(--text)] sm:text-5xl;
   }
 
   .page-copy {
-    @apply max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-300 sm:text-lg;
+    @apply max-w-2xl text-lg leading-6 text-[color:var(--muted)];
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-full bg-harvestGreen px-5 py-3 font-semibold text-white shadow-lg shadow-emerald-900/15 transition duration-200 hover:-translate-y-0.5 hover:bg-harvestGreen-700 hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-harvestGreen focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950;
+    @apply inline-flex items-center justify-center rounded-full bg-[color:var(--accent)] px-5 py-2.5 text-base font-normal text-white transition hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center rounded-full border border-slate-200 bg-white/80 px-5 py-3 font-semibold text-slate-700 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-harvestGreen hover:text-harvestGreen focus:outline-none focus-visible:ring-2 focus-visible:ring-harvestGreen focus-visible:ring-offset-2 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200 dark:hover:border-emerald-300 dark:hover:text-emerald-300 dark:focus-visible:ring-offset-slate-950;
+    @apply inline-flex items-center justify-center rounded-full border border-[color:var(--border)] px-5 py-2.5 text-base font-normal text-[color:var(--text)] transition hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2;
   }
 
   .form-field {
-    @apply mt-2 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 shadow-sm transition placeholder:text-slate-400 focus:border-harvestGreen focus:outline-none focus:ring-4 focus:ring-harvestGreen/15 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100;
+    @apply mt-2 w-full rounded-full border border-[color:var(--border)] bg-[color:var(--surface)] px-4 py-2.5 text-base text-[color:var(--text)] transition placeholder:text-[color:var(--muted)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)];
   }
 
   .form-label {
-    @apply block text-sm font-semibold text-slate-700 dark:text-slate-200;
+    @apply block text-sm font-medium text-[color:var(--text)];
   }
 
   .error-text {
-    @apply mt-2 text-sm font-medium text-red-700 dark:text-red-300;
+    @apply mt-2 text-sm font-medium text-red-600;
   }
 
   .badge {
-    @apply inline-flex items-center rounded-full bg-harvestGreen-50 px-3 py-1 text-xs font-bold uppercase tracking-wide text-harvestGreen dark:bg-emerald-950 dark:text-emerald-300;
+    @apply inline-flex items-center rounded-full border border-[color:var(--border)] px-3 py-1 text-xs font-medium uppercase tracking-wide text-[color:var(--text)];
+  }
+
+  .category-badge {
+    @apply inline-flex items-center rounded-full bg-[#a6a6a6] px-4 py-1 text-sm text-white;
   }
 
   .stat-card {
-    @apply rounded-2xl border border-slate-100 bg-white/85 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-950/80;
+    @apply rounded-2xl border border-[color:var(--border)] bg-[color:var(--surface)] p-4;
+  }
+
+  .rounded-card {
+    border-radius: 32px;
+  }
+
+  .rounded-image {
+    border-radius: 24px;
+  }
+}
+
+@layer utilities {
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--accent)] focus-visible:ring-offset-2;
   }
 }
