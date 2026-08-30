@@ -15,7 +15,7 @@ const initialForm = {
 }
 
 function BookingForm() {
-  const { isOnline } = useAppContext()
+  const { isOnline, t } = useAppContext()
   const [formData, setFormData] = useState(initialForm)
   const [errors, setErrors] = useState({})
   const [successMessage, setSuccessMessage] = useState('')
@@ -49,27 +49,27 @@ function BookingForm() {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
     if (!formData.name.trim()) {
-      nextErrors.name = 'Name is required.'
+      nextErrors.name = `${t('bookingName')} is required.`
     }
 
     if (!formData.email.trim()) {
-      nextErrors.email = 'Email is required.'
+      nextErrors.email = `${t('bookingEmail')} is required.`
     } else if (!emailPattern.test(formData.email)) {
-      nextErrors.email = 'Email must be valid.'
+      nextErrors.email = `${t('bookingEmail')} must be valid.`
     }
 
     if (!formData.itemId) {
-      nextErrors.itemId = 'Please select an event or workshop.'
+      nextErrors.itemId = `${t('bookingItem')} is required.`
     }
 
     if (!formData.bookingDateTime) {
-      nextErrors.bookingDateTime = 'Date and time is required.'
+      nextErrors.bookingDateTime = `${t('bookingDateTime')} is required.`
     } else if (selectedItem?.date && formData.bookingDateTime.slice(0, 10) !== selectedItem.date) {
       nextErrors.bookingDateTime = `${selectedItem.title} is scheduled for ${selectedItem.date}.`
     }
 
     if (!formData.participants || Number(formData.participants) < 1) {
-      nextErrors.participants = 'Participants must be at least 1.'
+      nextErrors.participants = `${t('bookingParticipants')} must be at least 1.`
     }
 
     return nextErrors
@@ -96,10 +96,10 @@ function BookingForm() {
         setIsSubmitting(true)
         setApiError('')
         await createBooking(bookingPayload)
-        setSuccessMessage(`Booking submitted for ${selectedItem?.title || ''}`)
+        setSuccessMessage(`${t('bookingSubmit')}: ${selectedItem?.title || ''}`)
         setFormData(initialForm)
       } catch (error) {
-        setApiError(error.message || 'Could not reach the backend. Please try again.')
+        setApiError(error.message || t('bookingNoBackend'))
       } finally {
         setIsSubmitting(false)
       }
@@ -110,13 +110,13 @@ function BookingForm() {
     <form className="app-panel space-y-6" onSubmit={handleSubmit} noValidate>
       {!isOnline && (
         <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200" role="status">
-          You are offline. Booking submission requires a connection to the backend.
+          {t('bookingBackendStatus')}
         </div>
       )}
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="booking-name" className="form-label">Full name</label>
+          <label htmlFor="booking-name" className="form-label">{t('bookingName')}</label>
           <input
             id="booking-name"
             type="text"
@@ -129,7 +129,7 @@ function BookingForm() {
         </div>
 
         <div>
-          <label htmlFor="booking-email" className="form-label">Email</label>
+          <label htmlFor="booking-email" className="form-label">{t('bookingEmail')}</label>
           <input
             id="booking-email"
             type="email"
@@ -143,14 +143,14 @@ function BookingForm() {
       </div>
 
       <div>
-        <label htmlFor="booking-item" className="form-label">Event or workshop</label>
+        <label htmlFor="booking-item" className="form-label">{t('bookingItem')}</label>
         <select
           id="booking-item"
           value={formData.itemId}
           onChange={(event) => handleItemChange(event.target.value)}
           className="form-field"
         >
-          <option value="">Select an event or workshop</option>
+          <option value="">{t('bookingItem')}</option>
           {bookableItems.map((item) => (
             <option key={item.id} value={item.id}>
               {item.title} - {item.date}
@@ -162,7 +162,7 @@ function BookingForm() {
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="booking-date-time" className="form-label">Date and time</label>
+          <label htmlFor="booking-date-time" className="form-label">{t('bookingDateTime')}</label>
           <input
             id="booking-date-time"
             type="datetime-local"
@@ -177,7 +177,7 @@ function BookingForm() {
         </div>
 
         <div>
-          <label htmlFor="booking-participants" className="form-label">Participants</label>
+          <label htmlFor="booking-participants" className="form-label">{t('bookingParticipants')}</label>
           <input
             id="booking-participants"
             type="number"
@@ -191,7 +191,7 @@ function BookingForm() {
       </div>
 
       <div>
-        <label htmlFor="booking-notes" className="form-label">Notes</label>
+        <label htmlFor="booking-notes" className="form-label">{t('bookingNotes')}</label>
         <textarea
           id="booking-notes"
           rows="4"
@@ -204,18 +204,18 @@ function BookingForm() {
 
       <div className="flex flex-col gap-3 border-t border-slate-100 pt-5 sm:flex-row sm:items-center sm:justify-end">
         <button type="submit" className="btn-primary w-full sm:w-auto" disabled={isSubmitting || !isOnline}>
-          {isSubmitting ? 'Saving...' : 'Submit booking'}
+          {isSubmitting ? t('bookingSaving') : t('bookingSubmit')}
         </button>
       </div>
 
       {apiError && (
-        <p className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-red-800" role="alert">
+        <p className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-red-800 dark:border-red-900 dark:bg-red-950 dark:text-red-200" role="alert">
           {apiError}
         </p>
       )}
 
       {successMessage && (
-        <p className="rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-emerald-900" role="status">
+        <p className="rounded-md border border-emerald-200 bg-emerald-50 px-4 py-3 text-emerald-900 dark:border-emerald-900 dark:bg-emerald-950 dark:text-emerald-200" role="status">
           {successMessage}
         </p>
       )}

@@ -3,7 +3,7 @@ import { useAppContext } from '../context/useAppContext'
 import { createReview, getReviewsByItem } from '../services/api'
 
 function ReviewSection({ itemType, itemId, itemTitle }) {
-  const { isOnline } = useAppContext()
+  const { isOnline, t } = useAppContext()
   const [reviews, setReviews] = useState([])
   const [formData, setFormData] = useState({ reviewerName: '', rating: '5', comment: '' })
   const [status, setStatus] = useState({ loading: false, error: '', success: '' })
@@ -48,7 +48,12 @@ function ReviewSection({ itemType, itemId, itemTitle }) {
     setStatus({ loading: false, error: '', success: '' })
 
     if (!formData.reviewerName.trim() || !formData.comment.trim() || !formData.rating) {
-      setStatus({ loading: false, error: 'Please fill in all fields.', success: '' })
+      setStatus({ loading: false, error: t('reviewErrorInvalid'), success: '' })
+      return
+    }
+
+    if (!isOnline) {
+      setStatus({ loading: false, error: t('reviewRequiredOffline'), success: '' })
       return
     }
 
@@ -63,29 +68,29 @@ function ReviewSection({ itemType, itemId, itemTitle }) {
         itemTitle,
       })
       setFormData({ reviewerName: '', rating: '5', comment: '' })
-      setStatus({ loading: false, error: '', success: 'Review submitted. Thank you!' })
+      setStatus({ loading: false, error: '', success: t('reviewSuccess') })
       const updatedReviews = await getReviewsByItem(itemType, itemId)
       setReviews(updatedReviews)
     } catch (error) {
-      setStatus({ loading: false, error: error.message || 'Could not submit review.', success: '' })
+      setStatus({ loading: false, error: error.message || t('reviewErrorInvalid'), success: '' })
     }
   }
 
   return (
     <section className="app-panel">
-      <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50">Reviews</h2>
-      <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">Reviews for {itemTitle}</p>
+      <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50">{t('reviewSectionTitle')}</h2>
+      <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{t('reviewSectionTitle')} for {itemTitle}</p>
       <div className="mt-6 grid gap-6 lg:grid-cols-[1.02fr_0.98fr]">
         <div>
-          <h3 className="font-semibold text-slate-900 dark:text-slate-50">Write a review</h3>
+          <h3 className="font-semibold text-slate-900 dark:text-slate-50">{t('reviewSubmit')}</h3>
           <form className="mt-4 grid gap-4" onSubmit={handleSubmit}>
             <label className="grid gap-2">
-              <span className="form-label">Name</span>
+              <span className="form-label">{t('reviewName')}</span>
               <input className="form-field" type="text" name="reviewerName" value={formData.reviewerName} onChange={handleChange} />
             </label>
 
             <label className="grid gap-2">
-              <span className="form-label">Rating</span>
+              <span className="form-label">{t('reviewRating')}</span>
               <select className="form-field" name="rating" value={formData.rating} onChange={handleChange}>
                 {[5, 4, 3, 2, 1].map((score) => (
                   <option key={score} value={score}>{score}</option>
@@ -94,7 +99,7 @@ function ReviewSection({ itemType, itemId, itemTitle }) {
             </label>
 
             <label className="grid gap-2">
-              <span className="form-label">Comment</span>
+              <span className="form-label">{t('reviewComment')}</span>
               <textarea className="form-field min-h-[120px] resize-none" name="comment" value={formData.comment} onChange={handleChange} />
             </label>
 
@@ -102,7 +107,7 @@ function ReviewSection({ itemType, itemId, itemTitle }) {
             {status.success && <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">{status.success}</p>}
 
             <button type="submit" className="btn-primary w-full sm:w-auto" disabled={status.loading || !isOnline}>
-              {status.loading ? 'Saving...' : 'Submit review'}
+              {status.loading ? t('reviewSaving') : t('reviewSubmit')}
             </button>
           </form>
         </div>
@@ -110,9 +115,9 @@ function ReviewSection({ itemType, itemId, itemTitle }) {
         <div>
           <h3 className="font-semibold text-slate-900 dark:text-slate-50">What people are saying</h3>
           {isLoading ? (
-            <p className="mt-4 text-slate-600 dark:text-slate-300">Loading reviews...</p>
+            <p className="mt-4 text-slate-600 dark:text-slate-300">{t('loadingReviews')}</p>
           ) : reviews.length === 0 ? (
-            <p className="mt-4 text-slate-600 dark:text-slate-300">No reviews yet. Be the first to leave one.</p>
+            <p className="mt-4 text-slate-600 dark:text-slate-300">{t('noReviewsYet')}</p>
           ) : (
             <ul className="mt-4 space-y-4">
               {reviews.map((review) => (

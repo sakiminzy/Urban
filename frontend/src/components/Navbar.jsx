@@ -2,17 +2,17 @@ import { NavLink } from 'react-router-dom'
 import { useAppContext } from '../context/useAppContext'
 
 function Navbar() {
-  const { isDarkMode, toggleDarkMode, role, setRole, isAdmin } = useAppContext()
+  const { isDarkMode, toggleDarkMode, language, setLanguage, role, setRole, isAdmin, t } = useAppContext()
 
   const navItems = [
-    { label: 'Home', path: '/' },
-    { label: 'Products', path: '/products' },
-    { label: 'Events', path: '/events' },
-    { label: 'Workshops', path: '/workshops' },
-    { label: 'Booking', path: '/booking' },
-    { label: 'Bookings', path: '/bookings' },
-    { label: 'Subscribe', path: '/subscribe' },
-    ...(isAdmin ? [{ label: 'Admin', path: '/admin' }] : []),
+    { label: t('home'), path: '/' },
+    { label: t('products'), path: '/products' },
+    { label: t('events'), path: '/events' },
+    { label: t('workshops'), path: '/workshops' },
+    { label: t('booking'), path: '/booking' },
+    { label: t('bookings'), path: '/bookings' },
+    { label: t('subscribe'), path: '/subscribe' },
+    ...(isAdmin ? [{ label: t('admin'), path: '/admin' }] : []),
   ]
 
   const linkClass = ({ isActive }) =>
@@ -46,21 +46,32 @@ function Navbar() {
             className="rounded-full border border-slate-200 bg-white px-3.5 py-2 text-sm font-semibold text-slate-700 transition hover:border-harvestGreen hover:text-harvestGreen dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200 dark:hover:text-emerald-300"
             onClick={toggleDarkMode}
             aria-pressed={isDarkMode}
+            aria-label={t('darkMode')}
           >
-            {isDarkMode ? 'Light mode' : 'Dark mode'}
+            {isDarkMode ? t('lightMode') : t('darkMode')}
           </button>
         </div>
 
         <div className="flex items-center gap-2">
-          <label className="sr-only" htmlFor="role-select">Role</label>
+          <label className="sr-only" htmlFor="language-select">{t('languageLabel')}</label>
+          <select
+            id="language-select"
+            value={language}
+            onChange={(event) => setLanguage(event.target.value)}
+            className="rounded-full border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 transition dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200"
+          >
+            <option value="en">EN</option>
+            <option value="si">SI</option>
+          </select>
+          <label className="sr-only" htmlFor="role-select">{t('roleLabel')}</label>
           <select
             id="role-select"
             value={role}
             onChange={(event) => setRole(event.target.value)}
             className="rounded-full border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 transition dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200"
           >
-            <option value="member">Community Member</option>
-            <option value="admin">Administrator</option>
+            <option value="member">{t('communityMember')}</option>
+            <option value="admin">{t('administrator')}</option>
           </select>
         </div>
       </nav>

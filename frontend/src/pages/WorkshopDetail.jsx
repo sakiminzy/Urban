@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import ItemDetail from '../components/ItemDetail'
 import ReviewSection from '../components/ReviewSection'
+import { useAppContext } from '../context/useAppContext'
 import { workshops as fallbackWorkshops } from '../data/items'
 import { getWorkshopById } from '../services/api'
 
 function WorkshopDetail() {
+  const { t } = useAppContext()
   const { id } = useParams()
   const [workshop, setWorkshop] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -28,7 +30,7 @@ function WorkshopDetail() {
 
         if (isMounted) {
           setWorkshop(fallbackWorkshop || null)
-          setError(fallbackWorkshop ? 'Backend unavailable. Showing local data for now.' : 'Workshop not found.')
+          setError(fallbackWorkshop ? t('offlineWarning') : t('workshopDetailsNotFound'))
         }
       } finally {
         if (isMounted) {
@@ -42,12 +44,12 @@ function WorkshopDetail() {
     return () => {
       isMounted = false
     }
-  }, [id])
+  }, [id, t])
 
   if (isLoading) {
     return (
       <section className="page-stack">
-        <p className="app-panel text-slate-600" role="status">Loading workshop...</p>
+        <p className="app-panel text-slate-600 dark:text-slate-300" role="status">{t('loadingWorkshops')}</p>
       </section>
     )
   }
@@ -55,8 +57,8 @@ function WorkshopDetail() {
   if (!workshop) {
     return (
       <section className="page-stack">
-        <h1 className="page-title">Workshop not found</h1>
-        <Link className="btn-secondary w-fit" to="/workshops">Back to workshops</Link>
+        <h1 className="page-title">{t('workshopDetailsNotFound')}</h1>
+        <Link className="btn-secondary w-fit" to="/workshops">{t('backToWorkshops')}</Link>
       </section>
     )
   }
@@ -64,11 +66,11 @@ function WorkshopDetail() {
   return (
     <section className="page-stack">
       {error && (
-        <p className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-amber-900" role="status">
+        <p className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200" role="status">
           {error}
         </p>
       )}
-      <ItemDetail item={workshop} backPath="/workshops" backLabel="Back to workshops" />
+      <ItemDetail item={workshop} backPath="/workshops" backLabel={t('backToWorkshops')} />
       <ReviewSection itemType="workshop" itemId={id} itemTitle={workshop.title} />
     </section>
   )
