@@ -30,7 +30,11 @@ function EventDetail() {
 
         if (isMounted) {
           setEvent(fallbackEvent || null)
-          setError(fallbackEvent ? t('offlineWarning') : t('eventDetailsNotFound'))
+          setError(
+            fallbackEvent
+              ? t('offlineWarning')
+              : t('eventDetailsNotFound'),
+          )
         }
       } finally {
         if (isMounted) {
@@ -49,7 +53,9 @@ function EventDetail() {
   if (isLoading) {
     return (
       <section className="page-stack">
-        <p className="app-panel text-slate-600 dark:text-slate-300" role="status">{t('loadingEvents')}</p>
+        <p className="app-panel text-slate-600 dark:text-slate-300" role="status">
+          {t('loadingEvents')}
+        </p>
       </section>
     )
   }
@@ -58,7 +64,9 @@ function EventDetail() {
     return (
       <section className="page-stack">
         <h1 className="page-title">{t('eventDetailsNotFound')}</h1>
-        <Link className="btn-secondary w-fit" to="/events">{t('backToEvents')}</Link>
+        <Link className="btn-secondary w-fit" to="/events">
+          {t('backToEvents')}
+        </Link>
       </section>
     )
   }

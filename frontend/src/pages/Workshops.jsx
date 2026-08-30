@@ -76,7 +76,9 @@ function Workshops() {
       </div>
 
       {isLoading && (
-        <p className="app-panel text-slate-600 dark:text-slate-300" role="status">{t('loadingWorkshops')}</p>
+        <p className="app-panel text-slate-600 dark:text-slate-300" role="status">
+          {t('loadingWorkshops')}
+        </p>
       )}
 
       {error && !isLoading && (
@@ -92,7 +94,9 @@ function Workshops() {
           ))}
         </div>
       ) : !isLoading ? (
-        <p className="app-panel text-slate-600 dark:text-slate-300" role="status">{t('noMatches')}</p>
+        <p className="app-panel text-slate-600 dark:text-slate-300" role="status">
+          {t('noMatches')}
+        </p>
       ) : null}
     </section>
   )

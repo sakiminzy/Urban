@@ -15,7 +15,7 @@ const initialForm = {
 }
 
 function BookingForm() {
-  const { isOnline, t } = useAppContext()
+  const { addBooking, t, isOnline } = useAppContext()
   const [formData, setFormData] = useState(initialForm)
   const [errors, setErrors] = useState({})
   const [successMessage, setSuccessMessage] = useState('')
@@ -49,27 +49,27 @@ function BookingForm() {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
     if (!formData.name.trim()) {
-      nextErrors.name = `${t('bookingName')} is required.`
+      nextErrors.name = t('bookingName') + ' is required.'
     }
 
     if (!formData.email.trim()) {
-      nextErrors.email = `${t('bookingEmail')} is required.`
+      nextErrors.email = t('bookingEmail') + ' is required.'
     } else if (!emailPattern.test(formData.email)) {
-      nextErrors.email = `${t('bookingEmail')} must be valid.`
+      nextErrors.email = t('bookingEmail') + ' must be valid.'
     }
 
     if (!formData.itemId) {
-      nextErrors.itemId = `${t('bookingItem')} is required.`
+      nextErrors.itemId = t('bookingItem') + ' is required.'
     }
 
     if (!formData.bookingDateTime) {
-      nextErrors.bookingDateTime = `${t('bookingDateTime')} is required.`
+      nextErrors.bookingDateTime = t('bookingDateTime') + ' is required.'
     } else if (selectedItem?.date && formData.bookingDateTime.slice(0, 10) !== selectedItem.date) {
-      nextErrors.bookingDateTime = `${selectedItem.title} is scheduled for ${selectedItem.date}.`
+      nextErrors.bookingDateTime = `${t('bookingItem')} is scheduled for ${selectedItem.date}.`
     }
 
     if (!formData.participants || Number(formData.participants) < 1) {
-      nextErrors.participants = `${t('bookingParticipants')} must be at least 1.`
+      nextErrors.participants = t('bookingParticipants') + ' must be at least 1.'
     }
 
     return nextErrors
@@ -89,17 +89,21 @@ function BookingForm() {
         itemId: formData.itemId,
         itemTitle: selectedItem?.title || '',
         itemType: selectedItem?.type || '',
-        bookingDate: formData.bookingDateTime,
+        itemDate: selectedItem?.date || '',
+        bookingDateTime: formData.bookingDateTime,
       }
 
       try {
         setIsSubmitting(true)
         setApiError('')
-        await createBooking(bookingPayload)
-        setSuccessMessage(`${t('bookingSubmit')}: ${selectedItem?.title || ''}`)
+        const savedBooking = await createBooking(bookingPayload)
+
+        addBooking(savedBooking)
+        setSuccessMessage(`${t('bookingSubmit')} ${selectedItem?.title || ''}`)
         setFormData(initialForm)
-      } catch (error) {
-        setApiError(error.message || t('bookingNoBackend'))
+      } catch {
+        addBooking(bookingPayload)
+        setApiError(t('bookingNoBackend'))
       } finally {
         setIsSubmitting(false)
       }
@@ -110,45 +114,57 @@ function BookingForm() {
     <form className="app-panel space-y-6" onSubmit={handleSubmit} noValidate>
       {!isOnline && (
         <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200" role="status">
-          {t('bookingBackendStatus')}
+          {t('offlineStatus')}
         </div>
       )}
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="booking-name" className="form-label">{t('bookingName')}</label>
+          <label htmlFor="booking-name" className="form-label">
+            {t('bookingName')}
+          </label>
           <input
             id="booking-name"
             type="text"
             value={formData.name}
             onChange={(event) => updateField('name', event.target.value)}
             className="form-field"
+            aria-describedby={errors.name ? 'booking-name-error' : undefined}
+            aria-invalid={Boolean(errors.name)}
             autoComplete="name"
           />
-          {errors.name && <p className="error-text">{errors.name}</p>}
+          {errors.name && <p id="booking-name-error" className="error-text">{errors.name}</p>}
         </div>
 
         <div>
-          <label htmlFor="booking-email" className="form-label">{t('bookingEmail')}</label>
+          <label htmlFor="booking-email" className="form-label">
+            {t('bookingEmail')}
+          </label>
           <input
             id="booking-email"
             type="email"
             value={formData.email}
             onChange={(event) => updateField('email', event.target.value)}
             className="form-field"
+            aria-describedby={errors.email ? 'booking-email-error' : undefined}
+            aria-invalid={Boolean(errors.email)}
             autoComplete="email"
           />
-          {errors.email && <p className="error-text">{errors.email}</p>}
+          {errors.email && <p id="booking-email-error" className="error-text">{errors.email}</p>}
         </div>
       </div>
 
       <div>
-        <label htmlFor="booking-item" className="form-label">{t('bookingItem')}</label>
+        <label htmlFor="booking-item" className="form-label">
+          {t('bookingItem')}
+        </label>
         <select
           id="booking-item"
           value={formData.itemId}
           onChange={(event) => handleItemChange(event.target.value)}
           className="form-field"
+          aria-describedby={errors.itemId ? 'booking-item-error' : 'booking-item-help'}
+          aria-invalid={Boolean(errors.itemId)}
         >
           <option value="">{t('bookingItem')}</option>
           {bookableItems.map((item) => (
@@ -157,27 +173,45 @@ function BookingForm() {
             </option>
           ))}
         </select>
-        {errors.itemId && <p className="error-text">{errors.itemId}</p>}
+        <p id="booking-item-help" className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+          {t('bookingBackendStatus')}
+        </p>
+        {errors.itemId && <p id="booking-item-error" className="error-text">{errors.itemId}</p>}
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="booking-date-time" className="form-label">{t('bookingDateTime')}</label>
+          <label htmlFor="booking-date-time" className="form-label">
+            {t('bookingDateTime')}
+          </label>
           <input
             id="booking-date-time"
             type="datetime-local"
             value={formData.bookingDateTime}
             onChange={(event) => updateField('bookingDateTime', event.target.value)}
             className="form-field"
+            aria-describedby={errors.bookingDateTime ? 'booking-date-time-error' : 'booking-date-time-help'}
+            aria-invalid={Boolean(errors.bookingDateTime)}
             min={selectedItem?.date ? `${selectedItem.date}T00:00` : undefined}
             max={selectedItem?.date ? `${selectedItem.date}T23:59` : undefined}
             disabled={!selectedItem}
           />
-          {errors.bookingDateTime && <p className="error-text">{errors.bookingDateTime}</p>}
+          <p id="booking-date-time-help" className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+            {selectedItem?.date
+              ? `${selectedItem.title} is scheduled for ${selectedItem.date}.`
+              : t('bookingItem') + ' ' + t('bookingDateTime')}
+          </p>
+          {errors.bookingDateTime && (
+            <p id="booking-date-time-error" className="error-text">
+              {errors.bookingDateTime}
+            </p>
+          )}
         </div>
 
         <div>
-          <label htmlFor="booking-participants" className="form-label">{t('bookingParticipants')}</label>
+          <label htmlFor="booking-participants" className="form-label">
+            {t('bookingParticipants')}
+          </label>
           <input
             id="booking-participants"
             type="number"
@@ -185,13 +219,21 @@ function BookingForm() {
             value={formData.participants}
             onChange={(event) => updateField('participants', event.target.value)}
             className="form-field"
+            aria-describedby={errors.participants ? 'booking-participants-error' : undefined}
+            aria-invalid={Boolean(errors.participants)}
           />
-          {errors.participants && <p className="error-text">{errors.participants}</p>}
+          {errors.participants && (
+            <p id="booking-participants-error" className="error-text">
+              {errors.participants}
+            </p>
+          )}
         </div>
       </div>
 
       <div>
-        <label htmlFor="booking-notes" className="form-label">{t('bookingNotes')}</label>
+        <label htmlFor="booking-notes" className="form-label">
+          {t('bookingNotes')}
+        </label>
         <textarea
           id="booking-notes"
           rows="4"
@@ -202,8 +244,9 @@ function BookingForm() {
         />
       </div>
 
-      <div className="flex flex-col gap-3 border-t border-slate-100 pt-5 sm:flex-row sm:items-center sm:justify-end">
-        <button type="submit" className="btn-primary w-full sm:w-auto" disabled={isSubmitting || !isOnline}>
+      <div className="flex flex-col gap-3 border-t border-slate-100 pt-5 dark:border-slate-800 sm:flex-row sm:items-center sm:justify-between">
+        <p className="text-sm text-slate-500 dark:text-slate-400">{t('bookingBackendStatus')}</p>
+        <button type="submit" className="btn-primary w-full sm:w-auto" disabled={isSubmitting}>
           {isSubmitting ? t('bookingSaving') : t('bookingSubmit')}
         </button>
       </div>

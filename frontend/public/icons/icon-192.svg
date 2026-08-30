@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192" role="img" aria-label="Urban Harvest Hub icon">
+  <rect width="192" height="192" rx="44" fill="#287a4b"/>
+  <circle cx="96" cy="96" r="62" fill="#edf8f1"/>
+  <path d="M98 138c-25-18-39-38-39-59 0-23 17-41 39-41s39 18 39 41c0 21-14 41-39 59Z" fill="#287a4b"/>
+  <path d="M96 129V72" stroke="#edf8f1" stroke-width="10" stroke-linecap="round"/>
+  <path d="M96 92c-17-4-28-13-33-27 18 0 30 8 33 27Z" fill="#edf8f1"/>
+  <path d="M96 105c19-3 31-13 37-30-20 0-33 9-37 30Z" fill="#edf8f1"/>
+</svg>

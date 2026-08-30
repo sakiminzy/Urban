@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useAppContext } from '../context/useAppContext'
 import { getBookings } from '../services/api'
 
 function Bookings() {
-  const [bookings, setBookings] = useState([])
+  const { bookings: contextBookings } = useAppContext()
+  const [bookings, setBookings] = useState(contextBookings)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
 
@@ -21,8 +23,8 @@ function Bookings() {
         }
       } catch {
         if (isMounted) {
-          setBookings([])
-          setError('Backend unavailable. Bookings cannot be loaded right now.')
+          setBookings(contextBookings)
+          setError('Backend unavailable. Showing bookings stored in this frontend session.')
         }
       } finally {
         if (isMounted) {
@@ -36,18 +38,22 @@ function Bookings() {
     return () => {
       isMounted = false
     }
-  }, [])
+  }, [contextBookings])
 
   return (
     <section className="page-stack" aria-labelledby="bookings-heading">
       <div>
-        <p className="section-kicker">Booking summary</p>
+        <p className="section-kicker">Context summary</p>
         <h1 id="bookings-heading" className="mt-2 page-title">Bookings</h1>
-        <p className="page-copy mt-3">All booking requests submitted through the booking form.</p>
+        <p className="page-copy mt-3">
+          Frontend-only summary of booking requests stored in React Context.
+        </p>
       </div>
 
       {isLoading && (
-        <p className="app-panel text-slate-600 dark:text-slate-300" role="status">Loading bookings...</p>
+        <p className="app-panel text-slate-600 dark:text-slate-300" role="status">
+          Loading bookings...
+        </p>
       )}
 
       {error && !isLoading && (
@@ -56,23 +62,37 @@ function Bookings() {
         </p>
       )}
 
-      {!isLoading && bookings.length === 0 && !error ? (
-        <div className="app-panel text-center">
+      {!isLoading && bookings.length === 0 ? (
+        <div className="app-panel-soft text-center">
           <p className="mx-auto max-w-md text-slate-600 dark:text-slate-300">
-            No bookings have been submitted yet.
+            No bookings have been submitted yet. Create one to see the React Context summary update instantly.
           </p>
-          <Link to="/booking" className="btn-primary mt-4">Create a booking</Link>
+          <Link
+            to="/booking"
+            className="btn-primary mt-4"
+          >
+            Create a booking
+          </Link>
         </div>
       ) : !isLoading ? (
         <div className="grid gap-5 lg:grid-cols-2">
           {bookings.map((booking) => (
-            <article key={booking.id} className="app-panel">
+            <article
+              key={booking.id}
+              className="app-panel transition duration-200 hover:-translate-y-1 hover:shadow-2xl"
+            >
               <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
                 <div>
-                  <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-100">{booking.itemTitle}</h2>
-                  <p className="mt-1 text-sm capitalize text-emerald-700 dark:text-emerald-300">{booking.itemType || 'booking'}</p>
+                  <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-100">
+                    {booking.itemTitle}
+                  </h2>
+                <p className="mt-1 text-sm capitalize text-emerald-700 dark:text-emerald-300">
+                    {booking.itemType || 'booking'} on <time dateTime={booking.itemDate}>{booking.itemDate || 'pending date'}</time>
+                  </p>
                 </div>
-                <p className="badge">{booking.participants} participant{booking.participants === 1 ? '' : 's'}</p>
+                <p className="badge bg-harvestGreen-50 text-harvestGreen dark:bg-emerald-950 dark:text-emerald-300">
+                  {booking.participants} participant{booking.participants === 1 ? '' : 's'}
+                </p>
               </div>
               <dl className="mt-4 grid gap-3 sm:grid-cols-2">
                 <div>
@@ -86,11 +106,13 @@ function Bookings() {
                 <div>
                   <dt className="text-sm font-medium text-slate-500 dark:text-slate-400">Requested time</dt>
                   <dd className="mt-1 text-slate-900 dark:text-slate-100">
-                    <time dateTime={booking.bookingDate}>{booking.bookingDate}</time>
+                    <time dateTime={booking.bookingDateTime}>{booking.bookingDateTime}</time>
                   </dd>
                 </div>
               </dl>
-              {booking.notes && <p className="mt-4 text-slate-600 dark:text-slate-300">{booking.notes}</p>}
+              {booking.notes && (
+                <p className="mt-4 text-slate-600 dark:text-slate-300">{booking.notes}</p>
+              )}
             </article>
           ))}
         </div>

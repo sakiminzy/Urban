@@ -3,7 +3,7 @@ import { useAppContext } from '../context/useAppContext'
 import { createReview, getReviewsByItem } from '../services/api'
 
 function ReviewSection({ itemType, itemId, itemTitle }) {
-  const { isOnline, t } = useAppContext()
+  const { t, isOnline } = useAppContext()
   const [reviews, setReviews] = useState([])
   const [formData, setFormData] = useState({ reviewerName: '', rating: '5', comment: '' })
   const [status, setStatus] = useState({ loading: false, error: '', success: '' })
@@ -77,33 +77,44 @@ function ReviewSection({ itemType, itemId, itemTitle }) {
   }
 
   return (
-    <section className="app-panel">
+    <section className="app-panel rounded-3xl border border-slate-200 bg-white p-6 shadow-sm shadow-emerald-950/5 dark:border-slate-800 dark:bg-slate-950 dark:shadow-black/10">
       <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50">{t('reviewSectionTitle')}</h2>
-      <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{t('reviewSectionTitle')} for {itemTitle}</p>
+      <p className="mt-2 text-sm text-slate-600 dark:text-slate-400">{t('reviewSectionTitle')} for {itemTitle}</p>
       <div className="mt-6 grid gap-6 lg:grid-cols-[1.02fr_0.98fr]">
         <div>
           <h3 className="font-semibold text-slate-900 dark:text-slate-50">{t('reviewSubmit')}</h3>
           <form className="mt-4 grid gap-4" onSubmit={handleSubmit}>
             <label className="grid gap-2">
-              <span className="form-label">{t('reviewName')}</span>
-              <input className="form-field" type="text" name="reviewerName" value={formData.reviewerName} onChange={handleChange} />
+              <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{t('reviewName')}</span>
+              <input
+                className="form-field"
+                type="text"
+                name="reviewerName"
+                value={formData.reviewerName}
+                onChange={handleChange}
+              />
             </label>
 
             <label className="grid gap-2">
-              <span className="form-label">{t('reviewRating')}</span>
+              <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{t('reviewRating')}</span>
               <select className="form-field" name="rating" value={formData.rating} onChange={handleChange}>
                 {[5, 4, 3, 2, 1].map((score) => (
-                  <option key={score} value={score}>{score}</option>
+                  <option key={score} value={score}> {score}</option>
                 ))}
               </select>
             </label>
 
             <label className="grid gap-2">
-              <span className="form-label">{t('reviewComment')}</span>
-              <textarea className="form-field min-h-[120px] resize-none" name="comment" value={formData.comment} onChange={handleChange} />
+              <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{t('reviewComment')}</span>
+              <textarea
+                className="form-field min-h-[120px] resize-none"
+                name="comment"
+                value={formData.comment}
+                onChange={handleChange}
+              />
             </label>
 
-            {status.error && <p className="error-text">{status.error}</p>}
+            {status.error && <p className="text-sm font-semibold text-rose-700 dark:text-rose-300">{status.error}</p>}
             {status.success && <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">{status.success}</p>}
 
             <button type="submit" className="btn-primary w-full sm:w-auto" disabled={status.loading || !isOnline}>
@@ -113,7 +124,7 @@ function ReviewSection({ itemType, itemId, itemTitle }) {
         </div>
 
         <div>
-          <h3 className="font-semibold text-slate-900 dark:text-slate-50">What people are saying</h3>
+          <h3 className="font-semibold text-slate-900 dark:text-slate-50">{t('reviewSectionTitle')}</h3>
           {isLoading ? (
             <p className="mt-4 text-slate-600 dark:text-slate-300">{t('loadingReviews')}</p>
           ) : reviews.length === 0 ? (
@@ -124,7 +135,7 @@ function ReviewSection({ itemType, itemId, itemTitle }) {
                 <li key={review.id} className="rounded-3xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900">
                   <div className="flex items-center justify-between gap-3">
                     <p className="font-semibold text-slate-900 dark:text-slate-50">{review.reviewerName}</p>
-                    <span className="badge">{review.rating}/5</span>
+                    <span className="rounded-full bg-emerald-100 px-3 py-1 text-sm font-semibold text-emerald-800 dark:bg-emerald-800/20 dark:text-emerald-200">{review.rating}/5</span>
                   </div>
                   <p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300">{review.comment}</p>
                 </li>

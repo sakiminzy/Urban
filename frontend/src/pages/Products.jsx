@@ -76,7 +76,9 @@ function Products() {
       </div>
 
       {isLoading && (
-        <p className="app-panel text-slate-600 dark:text-slate-300" role="status">{t('loadingProducts')}</p>
+        <p className="app-panel text-slate-600 dark:text-slate-300" role="status">
+          {t('loadingProducts')}
+        </p>
       )}
 
       {error && !isLoading && (
@@ -92,7 +94,9 @@ function Products() {
           ))}
         </div>
       ) : !isLoading ? (
-        <p className="app-panel text-slate-600 dark:text-slate-300" role="status">{t('noMatches')}</p>
+        <p className="app-panel text-slate-600 dark:text-slate-300" role="status">
+          {t('noMatches')}
+        </p>
       ) : null}
     </section>
   )

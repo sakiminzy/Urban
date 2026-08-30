@@ -27,6 +27,8 @@ export function AppProvider({ children }) {
   const [language, setLanguage] = useState(getInitialLanguage)
   const [role, setRole] = useState(getInitialRole)
   const [isOnline, setIsOnline] = useState(navigator.onLine)
+  const [bookings, setBookings] = useState([])
+  const [subscriptions, setSubscriptions] = useState([])
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', isDarkMode)
@@ -54,6 +56,28 @@ export function AppProvider({ children }) {
     }
   }, [])
 
+  const addBooking = (booking) => {
+    setBookings((currentBookings) => [
+      {
+        ...booking,
+        id: crypto.randomUUID(),
+        createdAt: new Date().toISOString(),
+      },
+      ...currentBookings,
+    ])
+  }
+
+  const addSubscription = (subscription) => {
+    setSubscriptions((currentSubscriptions) => [
+      {
+        ...subscription,
+        id: crypto.randomUUID(),
+        createdAt: new Date().toISOString(),
+      },
+      ...currentSubscriptions,
+    ])
+  }
+
   const t = (key) => {
     return translations[language]?.[key] ?? translations.en[key] ?? key
   }
@@ -74,8 +98,12 @@ export function AppProvider({ children }) {
       isAdmin: role === 'admin',
       isOnline,
       t,
+      bookings,
+      addBooking,
+      subscriptions,
+      addSubscription,
     }),
-    [isDarkMode, isOnline, language, role, searchTerm, selectedCategory],
+    [bookings, isDarkMode, isOnline, language, role, searchTerm, selectedCategory, subscriptions],
   )
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>

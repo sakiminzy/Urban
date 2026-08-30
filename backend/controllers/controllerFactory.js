@@ -22,6 +22,13 @@ function mapRow(row, type) {
     return null
   }
 
+  if (type === 'booking') {
+    return {
+      ...row,
+      bookingDateTime: row.bookingDate,
+    }
+  }
+
   return {
     ...row,
     type,

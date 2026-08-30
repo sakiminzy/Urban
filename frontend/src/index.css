@@ -4,9 +4,12 @@
 @theme {
   --color-harvestGreen: #287a4b;
   --color-harvestGreen-50: #edf8f1;
+  --color-harvestGreen-100: #d7f0df;
   --color-harvestGreen-700: #20613d;
+  --color-harvestGreen-900: #123b25;
   --color-earthBrown: #7a4a24;
   --color-earthBrown-50: #fbf4ec;
+  --color-earthBrown-700: #663d1d;
   --font-sans: "Urbanist", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
@@ -14,23 +17,35 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+  background:
+    radial-gradient(circle at top left, rgba(40, 122, 75, 0.12), transparent 32rem),
+    linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
   color: #1f2937;
   font-family: var(--font-sans);
 }
 
 .dark body {
-  background: linear-gradient(180deg, #020617 0%, #0f172a 100%);
+  background:
+    radial-gradient(circle at top left, rgba(45, 212, 191, 0.12), transparent 30rem),
+    linear-gradient(180deg, #020617 0%, #0f172a 100%);
   color: #e2e8f0;
 }
 
 @layer components {
   .page-stack {
-    @apply space-y-6;
+    @apply space-y-10;
   }
 
   .app-panel {
-    @apply rounded-2xl border border-white/70 bg-white/90 p-6 shadow-xl shadow-emerald-950/5 backdrop-blur dark:border-slate-800/80 dark:bg-slate-900/85;
+    @apply rounded-2xl border border-white/70 bg-white/90 p-6 shadow-xl shadow-emerald-950/5 backdrop-blur dark:border-slate-800/80 dark:bg-slate-900/85 dark:shadow-black/20;
+  }
+
+  .app-panel-soft {
+    @apply rounded-2xl border border-emerald-100 bg-gradient-to-br from-white to-emerald-50/70 p-6 shadow-lg shadow-emerald-950/5 dark:border-slate-800 dark:from-slate-900 dark:to-slate-950;
+  }
+
+  .page-hero {
+    @apply rounded-3xl border border-white/70 bg-gradient-to-br from-harvestGreen-50 via-white to-earthBrown-50 p-6 shadow-2xl shadow-emerald-950/10 dark:border-slate-800 dark:from-slate-900 dark:via-slate-950 dark:to-harvestGreen-900 sm:p-8 lg:p-10;
   }
 
   .section-kicker {
@@ -61,11 +76,15 @@ body {
     @apply block text-sm font-semibold text-slate-700 dark:text-slate-200;
   }
 
+  .error-text {
+    @apply mt-2 text-sm font-medium text-red-700 dark:text-red-300;
+  }
+
   .badge {
     @apply inline-flex items-center rounded-full bg-harvestGreen-50 px-3 py-1 text-xs font-bold uppercase tracking-wide text-harvestGreen dark:bg-emerald-950 dark:text-emerald-300;
   }
 
-  .error-text {
-    @apply mt-2 text-sm font-medium text-red-700 dark:text-red-300;
+  .stat-card {
+    @apply rounded-2xl border border-slate-100 bg-white/85 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-950/80;
   }
 }

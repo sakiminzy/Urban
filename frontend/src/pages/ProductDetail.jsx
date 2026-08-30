@@ -30,7 +30,11 @@ function ProductDetail() {
 
         if (isMounted) {
           setProduct(fallbackProduct || null)
-          setError(fallbackProduct ? t('offlineWarning') : t('productDetailsNotFound'))
+          setError(
+            fallbackProduct
+              ? t('offlineWarning')
+              : t('productDetailsNotFound'),
+          )
         }
       } finally {
         if (isMounted) {
@@ -49,7 +53,9 @@ function ProductDetail() {
   if (isLoading) {
     return (
       <section className="page-stack">
-        <p className="app-panel text-slate-600 dark:text-slate-300" role="status">{t('loadingProducts')}</p>
+        <p className="app-panel text-slate-600 dark:text-slate-300" role="status">
+          {t('loadingProducts')}
+        </p>
       </section>
     )
   }
@@ -58,7 +64,9 @@ function ProductDetail() {
     return (
       <section className="page-stack">
         <h1 className="page-title">{t('productDetailsNotFound')}</h1>
-        <Link className="btn-secondary w-fit" to="/products">{t('backToProducts')}</Link>
+        <Link className="btn-secondary w-fit" to="/products">
+          {t('backToProducts')}
+        </Link>
       </section>
     )
   }

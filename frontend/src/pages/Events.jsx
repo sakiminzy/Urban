@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import CategoryFilter from '../components/CategoryFilter'
 import ItemCard from '../components/ItemCard'
 import SearchBar from '../components/SearchBar'
+import WeatherWidget from '../components/WeatherWidget'
 import { useAppContext } from '../context/useAppContext'
 import { events as fallbackEvents } from '../data/items'
 import { getEvents } from '../services/api'
@@ -67,13 +68,17 @@ function Events() {
         <p className="page-copy mt-3">{t('eventPageCopy')}</p>
       </div>
 
+      <WeatherWidget />
+
       <div className="app-panel flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <SearchBar placeholder={t('searchEvents')} />
         <CategoryFilter categories={categories} label={t('categoryLabelEvents')} />
       </div>
 
       {isLoading && (
-        <p className="app-panel text-slate-600 dark:text-slate-300" role="status">{t('loadingEvents')}</p>
+        <p className="app-panel text-slate-600 dark:text-slate-300" role="status">
+          {t('loadingEvents')}
+        </p>
       )}
 
       {error && !isLoading && (
@@ -89,7 +94,9 @@ function Events() {
           ))}
         </div>
       ) : !isLoading ? (
-        <p className="app-panel text-slate-600 dark:text-slate-300" role="status">{t('noMatches')}</p>
+        <p className="app-panel text-slate-600 dark:text-slate-300" role="status">
+          {t('noMatches')}
+        </p>
       ) : null}
     </section>
   )
