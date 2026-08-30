@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import ItemDetail from '../components/ItemDetail'
+import ReviewSection from '../components/ReviewSection'
 import { events as fallbackEvents } from '../data/items'
 import { getEventById } from '../services/api'
 
@@ -68,6 +69,7 @@ function EventDetail() {
         </p>
       )}
       <ItemDetail item={event} backPath="/events" backLabel="Back to events" />
+      <ReviewSection itemType="event" itemId={id} itemTitle={event.title} />
     </section>
   )
 }

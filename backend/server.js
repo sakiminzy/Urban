@@ -5,6 +5,9 @@ const dotenv = require('dotenv');
 const productsRoutes = require('./routes/products');
 const eventsRoutes = require('./routes/events');
 const workshopsRoutes = require('./routes/workshops');
+const bookingsRoutes = require('./routes/bookings');
+const subscriptionsRoutes = require('./routes/subscriptions');
+const reviewsRoutes = require('./routes/reviews');
 const { seedCatalogIfEmpty } = require('./database/seed');
 const errorHandler = require('./middleware/errorHandler');
 
@@ -24,6 +27,9 @@ app.get('/api/health', (req, res) => {
 app.use('/api/products', productsRoutes);
 app.use('/api/events', eventsRoutes);
 app.use('/api/workshops', workshopsRoutes);
+app.use('/api/bookings', bookingsRoutes);
+app.use('/api/subscriptions', subscriptionsRoutes);
+app.use('/api/reviews', reviewsRoutes);
 
 app.use((req, res) => {
   res.status(404).json({

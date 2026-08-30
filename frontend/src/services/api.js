@@ -41,3 +41,36 @@ export function getWorkshops() {
 export function getWorkshopById(id) {
   return request(`/workshops/${id}`)
 }
+
+export function getBookings() {
+  return request('/bookings')
+}
+
+export function createBooking(bookingData) {
+  return request('/bookings', {
+    method: 'POST',
+    body: JSON.stringify(bookingData),
+  })
+}
+
+export function getSubscriptions() {
+  return request('/subscriptions')
+}
+
+export function createSubscription(subscriptionData) {
+  return request('/subscriptions', {
+    method: 'POST',
+    body: JSON.stringify(subscriptionData),
+  })
+}
+
+export function getReviewsByItem(itemType, itemId) {
+  return request(`/reviews?itemType=${encodeURIComponent(itemType)}&itemId=${encodeURIComponent(itemId)}`)
+}
+
+export function createReview(reviewData) {
+  return request('/reviews', {
+    method: 'POST',
+    body: JSON.stringify(reviewData),
+  })
+}

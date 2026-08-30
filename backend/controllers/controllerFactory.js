@@ -62,6 +62,8 @@ function createCrudController(options) {
     fields,
     requiredFields,
     idSourceField = 'title',
+    transformInput = (body) => body,
+    extraValidate = () => [],
   } = options
 
   const selectAll = db.prepare(`SELECT * FROM ${table} ORDER BY created_at DESC`)
@@ -97,7 +99,11 @@ function createCrudController(options) {
   }
 
   const create = (req, res) => {
-    const errors = validateRequiredFields(req.body, requiredFields)
+    const input = transformInput(req.body)
+    const errors = [
+      ...validateRequiredFields(input, requiredFields),
+      ...extraValidate(input),
+    ]
 
     if (errors.length > 0) {
       return res.status(400).json({
@@ -107,7 +113,7 @@ function createCrudController(options) {
       })
     }
 
-    const id = req.body.id || createId(req.body[idSourceField], type) || crypto.randomUUID()
+    const id = input.id || createId(input[idSourceField], type) || crypto.randomUUID()
 
     if (selectById.get(id)) {
       return res.status(400).json({
@@ -118,7 +124,7 @@ function createCrudController(options) {
 
     insert.run({
       id,
-      ...pickFields(req.body, fields),
+      ...pickFields(input, fields),
     })
 
     return res.status(201).json({
@@ -137,7 +143,11 @@ function createCrudController(options) {
       })
     }
 
-    const errors = validateRequiredFields(req.body, requiredFields)
+    const input = transformInput(req.body)
+    const errors = [
+      ...validateRequiredFields(input, requiredFields),
+      ...extraValidate(input),
+    ]
 
     if (errors.length > 0) {
       return res.status(400).json({
@@ -149,7 +159,7 @@ function createCrudController(options) {
 
     update.run({
       id: req.params.id,
-      ...pickFields(req.body, fields),
+      ...pickFields(input, fields),
     })
 
     return res.json({

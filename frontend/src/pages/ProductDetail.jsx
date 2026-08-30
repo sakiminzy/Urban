@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import ItemDetail from '../components/ItemDetail'
+import ReviewSection from '../components/ReviewSection'
 import { products as fallbackProducts } from '../data/items'
 import { getProductById } from '../services/api'
 
@@ -68,6 +69,7 @@ function ProductDetail() {
         </p>
       )}
       <ItemDetail item={product} backPath="/products" backLabel="Back to products" />
+      <ReviewSection itemType="product" itemId={id} itemTitle={product.title} />
     </section>
   )
 }

@@ -58,4 +58,8 @@ body {
   .badge {
     @apply inline-flex items-center rounded-full bg-harvestGreen-50 px-3 py-1 text-xs font-bold uppercase tracking-wide text-harvestGreen;
   }
+
+  .error-text {
+    @apply mt-2 text-sm font-medium text-red-700;
+  }
 }

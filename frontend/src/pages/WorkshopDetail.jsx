@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import ItemDetail from '../components/ItemDetail'
+import ReviewSection from '../components/ReviewSection'
 import { workshops as fallbackWorkshops } from '../data/items'
 import { getWorkshopById } from '../services/api'
 
@@ -68,6 +69,7 @@ function WorkshopDetail() {
         </p>
       )}
       <ItemDetail item={workshop} backPath="/workshops" backLabel="Back to workshops" />
+      <ReviewSection itemType="workshop" itemId={id} itemTitle={workshop.title} />
     </section>
   )
 }

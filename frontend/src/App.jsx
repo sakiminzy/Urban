@@ -7,6 +7,9 @@ import Events from './pages/Events'
 import EventDetail from './pages/EventDetail'
 import Workshops from './pages/Workshops'
 import WorkshopDetail from './pages/WorkshopDetail'
+import Booking from './pages/Booking'
+import Bookings from './pages/Bookings'
+import Subscribe from './pages/Subscribe'
 import NotFound from './pages/NotFound'
 
 function App() {
@@ -23,6 +26,9 @@ function App() {
             <Route path="/events/:id" element={<EventDetail />} />
             <Route path="/workshops" element={<Workshops />} />
             <Route path="/workshops/:id" element={<WorkshopDetail />} />
+            <Route path="/booking" element={<Booking />} />
+            <Route path="/bookings" element={<Bookings />} />
+            <Route path="/subscribe" element={<Subscribe />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
