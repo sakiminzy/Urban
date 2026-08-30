@@ -74,3 +74,63 @@ export function createReview(reviewData) {
     body: JSON.stringify(reviewData),
   })
 }
+
+export function createProduct(productData) {
+  return request('/products', {
+    method: 'POST',
+    body: JSON.stringify(productData),
+  })
+}
+
+export function updateProduct(id, productData) {
+  return request(`/products/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(productData),
+  })
+}
+
+export function deleteProduct(id) {
+  return request(`/products/${id}`, {
+    method: 'DELETE',
+  })
+}
+
+export function createEvent(eventData) {
+  return request('/events', {
+    method: 'POST',
+    body: JSON.stringify(eventData),
+  })
+}
+
+export function updateEvent(id, eventData) {
+  return request(`/events/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(eventData),
+  })
+}
+
+export function deleteEvent(id) {
+  return request(`/events/${id}`, {
+    method: 'DELETE',
+  })
+}
+
+export function createWorkshop(workshopData) {
+  return request('/workshops', {
+    method: 'POST',
+    body: JSON.stringify(workshopData),
+  })
+}
+
+export function updateWorkshop(id, workshopData) {
+  return request(`/workshops/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(workshopData),
+  })
+}
+
+export function deleteWorkshop(id) {
+  return request(`/workshops/${id}`, {
+    method: 'DELETE',
+  })
+}

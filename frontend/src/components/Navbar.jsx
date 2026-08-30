@@ -14,6 +14,7 @@ function Navbar() {
           <Link to="/workshops" className="hover:text-harvestGreen">Workshops</Link>
           <Link to="/booking" className="hover:text-harvestGreen">Booking</Link>
           <Link to="/subscribe" className="hover:text-harvestGreen">Subscribe</Link>
+          <Link to="/admin" className="hover:text-harvestGreen">Admin</Link>
         </nav>
       </div>
     </header>

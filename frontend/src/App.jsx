@@ -10,6 +10,7 @@ import WorkshopDetail from './pages/WorkshopDetail'
 import Booking from './pages/Booking'
 import Bookings from './pages/Bookings'
 import Subscribe from './pages/Subscribe'
+import Admin from './pages/Admin'
 import NotFound from './pages/NotFound'
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
             <Route path="/booking" element={<Booking />} />
             <Route path="/bookings" element={<Bookings />} />
             <Route path="/subscribe" element={<Subscribe />} />
+            <Route path="/admin" element={<Admin />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
