@@ -1,4 +1,8 @@
-function SearchBar({ value, onChange, placeholder = 'Search items' }) {
+import { useAppContext } from '../context/useAppContext'
+
+function SearchBar({ placeholder = 'Search items' }) {
+  const { searchTerm, setSearchTerm } = useAppContext()
+
   return (
     <div>
       <label htmlFor="item-search" className="form-label">
@@ -7,8 +11,8 @@ function SearchBar({ value, onChange, placeholder = 'Search items' }) {
       <input
         id="item-search"
         type="search"
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
+        value={searchTerm}
+        onChange={(event) => setSearchTerm(event.target.value)}
         placeholder={placeholder}
         className="form-field sm:w-96"
         aria-label={placeholder}

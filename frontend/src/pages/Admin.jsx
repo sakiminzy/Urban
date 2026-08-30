@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import { useAppContext } from '../context/useAppContext'
 import {
   createEvent,
   createProduct,
@@ -41,6 +42,7 @@ const fieldLabels = {
 }
 
 function Admin() {
+  const { isOnline } = useAppContext()
   const [selectedType, setSelectedType] = useState('products')
   const [items, setItems] = useState([])
   const [selectedItem, setSelectedItem] = useState(null)
@@ -142,11 +144,11 @@ function Admin() {
       <div className="app-panel space-y-6">
         <div>
           <h1 className="page-title">Admin</h1>
-          <p className="mt-3 text-slate-600">Add, edit, or remove products, events, and workshops.</p>
+          <p className="mt-3 text-slate-600 dark:text-slate-300">Add, edit, or remove products, events, and workshops.</p>
         </div>
 
         <div className="grid gap-6 xl:grid-cols-[1.2fr_1fr]">
-          <div className="space-y-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+          <div className="space-y-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <label className="form-label" htmlFor="item-type-select">Type</label>
@@ -164,23 +166,23 @@ function Admin() {
               <button type="button" className="btn-secondary" onClick={resetForm}>New item</button>
             </div>
 
-            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4">
-              <h2 className="font-semibold text-slate-900">{currentTemplate.label}</h2>
+            <div className="rounded-3xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900">
+              <h2 className="font-semibold text-slate-900 dark:text-slate-50">{currentTemplate.label}</h2>
               {isLoading ? (
-                <p className="mt-4 text-slate-600">Loading items...</p>
+                <p className="mt-4 text-slate-600 dark:text-slate-300">Loading items...</p>
               ) : items.length === 0 ? (
-                <p className="mt-4 text-slate-600">No items available.</p>
+                <p className="mt-4 text-slate-600 dark:text-slate-300">No items available.</p>
               ) : (
                 <ul className="mt-4 space-y-3">
                   {items.map((item) => (
                     <li key={item.id}>
                       <button
                         type="button"
-                        className={`block w-full rounded-2xl border px-4 py-3 text-left transition ${selectedItem?.id === item.id ? 'border-harvestGreen bg-harvestGreen-50 text-harvestGreen' : 'border-slate-200 bg-white text-slate-900 hover:border-harvestGreen/50'}`}
+                        className={`block w-full rounded-2xl border px-4 py-3 text-left transition ${selectedItem?.id === item.id ? 'border-harvestGreen bg-harvestGreen-50 text-harvestGreen' : 'border-slate-200 bg-white text-slate-900 hover:border-harvestGreen/50 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-200'}`}
                         onClick={() => selectItem(item)}
                       >
                         <span className="font-semibold">{item.title}</span>
-                        <span className="block text-sm text-slate-500">{item.category}</span>
+                        <span className="block text-sm text-slate-500 dark:text-slate-400">{item.category}</span>
                       </button>
                     </li>
                   ))}
@@ -189,8 +191,8 @@ function Admin() {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-            <h2 className="text-xl font-semibold text-slate-900">{selectedItem ? 'Edit item' : 'New item'}</h2>
+          <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-950">
+            <h2 className="text-xl font-semibold text-slate-900 dark:text-slate-50">{selectedItem ? 'Edit item' : 'New item'}</h2>
             <form className="mt-6 grid gap-4" onSubmit={handleSave}>
               {currentFields.map((field) => (
                 <label key={field} className="grid gap-2">
@@ -206,14 +208,14 @@ function Admin() {
               ))}
 
               {feedback.error && <p className="error-text">{feedback.error}</p>}
-              {feedback.success && <p className="text-sm font-semibold text-emerald-700">{feedback.success}</p>}
+              {feedback.success && <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">{feedback.success}</p>}
 
               <div className="flex flex-wrap gap-3">
-                <button type="submit" className="btn-primary" disabled={feedback.loading}>
+                <button type="submit" className="btn-primary" disabled={feedback.loading || !isOnline}>
                   {feedback.loading ? 'Saving...' : 'Save'}
                 </button>
                 {selectedItem && (
-                  <button type="button" className="btn-secondary" onClick={handleDelete} disabled={feedback.loading}>
+                  <button type="button" className="btn-secondary" onClick={handleDelete} disabled={feedback.loading || !isOnline}>
                     Delete
                   </button>
                 )}

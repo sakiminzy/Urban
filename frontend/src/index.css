@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --color-harvestGreen: #287a4b;
@@ -18,48 +19,53 @@ body {
   font-family: var(--font-sans);
 }
 
+.dark body {
+  background: linear-gradient(180deg, #020617 0%, #0f172a 100%);
+  color: #e2e8f0;
+}
+
 @layer components {
   .page-stack {
     @apply space-y-6;
   }
 
   .app-panel {
-    @apply rounded-2xl border border-white/70 bg-white/90 p-6 shadow-xl shadow-emerald-950/5 backdrop-blur;
+    @apply rounded-2xl border border-white/70 bg-white/90 p-6 shadow-xl shadow-emerald-950/5 backdrop-blur dark:border-slate-800/80 dark:bg-slate-900/85;
   }
 
   .section-kicker {
-    @apply text-sm font-semibold uppercase tracking-wide text-harvestGreen;
+    @apply text-sm font-semibold uppercase tracking-wide text-harvestGreen dark:text-emerald-300;
   }
 
   .page-title {
-    @apply text-4xl font-black leading-tight text-slate-950 sm:text-5xl;
+    @apply text-4xl font-black leading-tight text-slate-950 dark:text-slate-50 sm:text-5xl;
   }
 
   .page-copy {
-    @apply max-w-2xl text-base leading-7 text-slate-600 sm:text-lg;
+    @apply max-w-2xl text-base leading-7 text-slate-600 dark:text-slate-300 sm:text-lg;
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-full bg-harvestGreen px-5 py-3 font-semibold text-white shadow-lg shadow-emerald-900/15 transition duration-200 hover:-translate-y-0.5 hover:bg-harvestGreen-700 hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-harvestGreen focus-visible:ring-offset-2;
+    @apply inline-flex items-center justify-center rounded-full bg-harvestGreen px-5 py-3 font-semibold text-white shadow-lg shadow-emerald-900/15 transition duration-200 hover:-translate-y-0.5 hover:bg-harvestGreen-700 hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-harvestGreen focus-visible:ring-offset-2 dark:focus-visible:ring-offset-slate-950;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center rounded-full border border-slate-200 bg-white/80 px-5 py-3 font-semibold text-slate-700 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-harvestGreen hover:text-harvestGreen focus:outline-none focus-visible:ring-2 focus-visible:ring-harvestGreen focus-visible:ring-offset-2;
+    @apply inline-flex items-center justify-center rounded-full border border-slate-200 bg-white/80 px-5 py-3 font-semibold text-slate-700 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-harvestGreen hover:text-harvestGreen focus:outline-none focus-visible:ring-2 focus-visible:ring-harvestGreen focus-visible:ring-offset-2 dark:border-slate-700 dark:bg-slate-900/80 dark:text-slate-200 dark:hover:border-emerald-300 dark:hover:text-emerald-300 dark:focus-visible:ring-offset-slate-950;
   }
 
   .form-field {
-    @apply mt-2 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 shadow-sm transition placeholder:text-slate-400 focus:border-harvestGreen focus:outline-none focus:ring-4 focus:ring-harvestGreen/15;
+    @apply mt-2 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 shadow-sm transition placeholder:text-slate-400 focus:border-harvestGreen focus:outline-none focus:ring-4 focus:ring-harvestGreen/15 dark:border-slate-700 dark:bg-slate-950 dark:text-slate-100;
   }
 
   .form-label {
-    @apply block text-sm font-semibold text-slate-700;
+    @apply block text-sm font-semibold text-slate-700 dark:text-slate-200;
   }
 
   .badge {
-    @apply inline-flex items-center rounded-full bg-harvestGreen-50 px-3 py-1 text-xs font-bold uppercase tracking-wide text-harvestGreen;
+    @apply inline-flex items-center rounded-full bg-harvestGreen-50 px-3 py-1 text-xs font-bold uppercase tracking-wide text-harvestGreen dark:bg-emerald-950 dark:text-emerald-300;
   }
 
   .error-text {
-    @apply mt-2 text-sm font-medium text-red-700;
+    @apply mt-2 text-sm font-medium text-red-700 dark:text-red-300;
   }
 }

@@ -2,16 +2,16 @@ import { useEffect, useMemo, useState } from 'react'
 import CategoryFilter from '../components/CategoryFilter'
 import ItemCard from '../components/ItemCard'
 import SearchBar from '../components/SearchBar'
+import { useAppContext } from '../context/useAppContext'
 import { workshops as fallbackWorkshops } from '../data/items'
 import { getWorkshops } from '../services/api'
 import { mergeItemsById } from '../utils/mergeItems'
 
 function Workshops() {
+  const { searchTerm, selectedCategory } = useAppContext()
   const [workshops, setWorkshops] = useState(fallbackWorkshops)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
-  const [searchTerm, setSearchTerm] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState('all')
 
   useEffect(() => {
     let isMounted = true
@@ -50,7 +50,10 @@ function Workshops() {
   )
 
   const filteredWorkshops = workshops.filter((workshop) => {
-    const matchesCategory = selectedCategory === 'all' || workshop.category === selectedCategory
+    const matchesCategory =
+      selectedCategory === 'all' ||
+      !categories.includes(selectedCategory) ||
+      workshop.category === selectedCategory
     const query = searchTerm.toLowerCase()
     const matchesSearch =
       workshop.title.toLowerCase().includes(query) ||
@@ -68,16 +71,16 @@ function Workshops() {
       </div>
 
       <div className="app-panel flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-        <SearchBar value={searchTerm} onChange={setSearchTerm} placeholder="Search workshops" />
-        <CategoryFilter categories={categories} value={selectedCategory} onChange={setSelectedCategory} label="Workshop category" />
+        <SearchBar placeholder="Search workshops" />
+        <CategoryFilter categories={categories} label="Workshop category" />
       </div>
 
       {isLoading && (
-        <p className="app-panel text-slate-600" role="status">Loading workshops...</p>
+        <p className="app-panel text-slate-600 dark:text-slate-300" role="status">Loading workshops...</p>
       )}
 
       {error && !isLoading && (
-        <p className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-amber-900" role="status">
+        <p className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200" role="status">
           {error}
         </p>
       )}
@@ -89,7 +92,7 @@ function Workshops() {
           ))}
         </div>
       ) : !isLoading ? (
-        <p className="app-panel text-slate-600" role="status">No workshops match your search.</p>
+        <p className="app-panel text-slate-600 dark:text-slate-300" role="status">No workshops match your search.</p>
       ) : null}
     </section>
   )

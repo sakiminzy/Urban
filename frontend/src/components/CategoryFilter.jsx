@@ -1,4 +1,8 @@
-function CategoryFilter({ categories, value, onChange, label = 'Category' }) {
+import { useAppContext } from '../context/useAppContext'
+
+function CategoryFilter({ categories, label = 'Category' }) {
+  const { selectedCategory, setSelectedCategory } = useAppContext()
+
   return (
     <div>
       <label htmlFor="category-filter" className="form-label">
@@ -6,8 +10,8 @@ function CategoryFilter({ categories, value, onChange, label = 'Category' }) {
       </label>
       <select
         id="category-filter"
-        value={categories.includes(value) ? value : 'all'}
-        onChange={(event) => onChange(event.target.value)}
+        value={categories.includes(selectedCategory) ? selectedCategory : 'all'}
+        onChange={(event) => setSelectedCategory(event.target.value)}
         className="form-field sm:w-64"
       >
         <option value="all">All categories</option>

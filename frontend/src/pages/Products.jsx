@@ -2,16 +2,16 @@ import { useEffect, useMemo, useState } from 'react'
 import CategoryFilter from '../components/CategoryFilter'
 import ItemCard from '../components/ItemCard'
 import SearchBar from '../components/SearchBar'
+import { useAppContext } from '../context/useAppContext'
 import { products as fallbackProducts } from '../data/items'
 import { getProducts } from '../services/api'
 import { mergeItemsById } from '../utils/mergeItems'
 
 function Products() {
+  const { searchTerm, selectedCategory } = useAppContext()
   const [products, setProducts] = useState(fallbackProducts)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState('')
-  const [searchTerm, setSearchTerm] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState('all')
 
   useEffect(() => {
     let isMounted = true
@@ -50,7 +50,10 @@ function Products() {
   )
 
   const filteredProducts = products.filter((product) => {
-    const matchesCategory = selectedCategory === 'all' || product.category === selectedCategory
+    const matchesCategory =
+      selectedCategory === 'all' ||
+      !categories.includes(selectedCategory) ||
+      product.category === selectedCategory
     const query = searchTerm.toLowerCase()
     const matchesSearch =
       product.title.toLowerCase().includes(query) ||
@@ -68,16 +71,16 @@ function Products() {
       </div>
 
       <div className="app-panel flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-        <SearchBar value={searchTerm} onChange={setSearchTerm} placeholder="Search products" />
-        <CategoryFilter categories={categories} value={selectedCategory} onChange={setSelectedCategory} label="Product category" />
+        <SearchBar placeholder="Search products" />
+        <CategoryFilter categories={categories} label="Product category" />
       </div>
 
       {isLoading && (
-        <p className="app-panel text-slate-600" role="status">Loading products...</p>
+        <p className="app-panel text-slate-600 dark:text-slate-300" role="status">Loading products...</p>
       )}
 
       {error && !isLoading && (
-        <p className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-amber-900" role="status">
+        <p className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200" role="status">
           {error}
         </p>
       )}
@@ -89,7 +92,7 @@ function Products() {
           ))}
         </div>
       ) : !isLoading ? (
-        <p className="app-panel text-slate-600" role="status">No products match your search.</p>
+        <p className="app-panel text-slate-600 dark:text-slate-300" role="status">No products match your search.</p>
       ) : null}
     </section>
   )

@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
+import { useAppContext } from '../context/useAppContext'
 import { createReview, getReviewsByItem } from '../services/api'
 
 function ReviewSection({ itemType, itemId, itemTitle }) {
+  const { isOnline } = useAppContext()
   const [reviews, setReviews] = useState([])
   const [formData, setFormData] = useState({ reviewerName: '', rating: '5', comment: '' })
   const [status, setStatus] = useState({ loading: false, error: '', success: '' })
@@ -71,11 +73,11 @@ function ReviewSection({ itemType, itemId, itemTitle }) {
 
   return (
     <section className="app-panel">
-      <h2 className="text-2xl font-bold text-slate-900">Reviews</h2>
-      <p className="mt-2 text-sm text-slate-600">Reviews for {itemTitle}</p>
+      <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-50">Reviews</h2>
+      <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">Reviews for {itemTitle}</p>
       <div className="mt-6 grid gap-6 lg:grid-cols-[1.02fr_0.98fr]">
         <div>
-          <h3 className="font-semibold text-slate-900">Write a review</h3>
+          <h3 className="font-semibold text-slate-900 dark:text-slate-50">Write a review</h3>
           <form className="mt-4 grid gap-4" onSubmit={handleSubmit}>
             <label className="grid gap-2">
               <span className="form-label">Name</span>
@@ -97,29 +99,29 @@ function ReviewSection({ itemType, itemId, itemTitle }) {
             </label>
 
             {status.error && <p className="error-text">{status.error}</p>}
-            {status.success && <p className="text-sm font-semibold text-emerald-700">{status.success}</p>}
+            {status.success && <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-300">{status.success}</p>}
 
-            <button type="submit" className="btn-primary w-full sm:w-auto" disabled={status.loading}>
+            <button type="submit" className="btn-primary w-full sm:w-auto" disabled={status.loading || !isOnline}>
               {status.loading ? 'Saving...' : 'Submit review'}
             </button>
           </form>
         </div>
 
         <div>
-          <h3 className="font-semibold text-slate-900">What people are saying</h3>
+          <h3 className="font-semibold text-slate-900 dark:text-slate-50">What people are saying</h3>
           {isLoading ? (
-            <p className="mt-4 text-slate-600">Loading reviews...</p>
+            <p className="mt-4 text-slate-600 dark:text-slate-300">Loading reviews...</p>
           ) : reviews.length === 0 ? (
-            <p className="mt-4 text-slate-600">No reviews yet. Be the first to leave one.</p>
+            <p className="mt-4 text-slate-600 dark:text-slate-300">No reviews yet. Be the first to leave one.</p>
           ) : (
             <ul className="mt-4 space-y-4">
               {reviews.map((review) => (
-                <li key={review.id} className="rounded-3xl border border-slate-200 bg-slate-50 p-4">
+                <li key={review.id} className="rounded-3xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-900">
                   <div className="flex items-center justify-between gap-3">
-                    <p className="font-semibold text-slate-900">{review.reviewerName}</p>
+                    <p className="font-semibold text-slate-900 dark:text-slate-50">{review.reviewerName}</p>
                     <span className="badge">{review.rating}/5</span>
                   </div>
-                  <p className="mt-3 text-sm leading-6 text-slate-600">{review.comment}</p>
+                  <p className="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300">{review.comment}</p>
                 </li>
               ))}
             </ul>

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useAppContext } from '../context/useAppContext'
 import { createSubscription } from '../services/api'
 
 const initialForm = {
@@ -10,6 +11,7 @@ const initialForm = {
 }
 
 function Subscribe() {
+  const { isOnline } = useAppContext()
   const [formData, setFormData] = useState(initialForm)
   const [status, setStatus] = useState({ loading: false, error: '', success: '' })
 
@@ -49,8 +51,14 @@ function Subscribe() {
       <div className="app-panel space-y-4">
         <div>
           <h1 className="page-title">Subscribe</h1>
-          <p className="mt-3 text-slate-600">Get produce box updates and event reminders delivered to your inbox.</p>
+          <p className="mt-3 text-slate-600 dark:text-slate-300">Get produce box updates and event reminders delivered to your inbox.</p>
         </div>
+
+        {!isOnline && (
+          <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200">
+            You are offline. Subscribing requires a connection to the backend.
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="grid gap-4">
           <label className="grid gap-2">
@@ -83,9 +91,9 @@ function Subscribe() {
           </label>
 
           {status.error && <p className="error-text" role="alert">{status.error}</p>}
-          {status.success && <p className="text-sm font-semibold text-emerald-700" role="status">{status.success}</p>}
+          {status.success && <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-300" role="status">{status.success}</p>}
 
-          <button type="submit" className="btn-primary w-full sm:w-auto" disabled={status.loading}>
+          <button type="submit" className="btn-primary w-full sm:w-auto" disabled={status.loading || !isOnline}>
             {status.loading ? 'Saving...' : 'Subscribe'}
           </button>
         </form>

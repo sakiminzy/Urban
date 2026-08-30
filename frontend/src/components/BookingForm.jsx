@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useAppContext } from '../context/useAppContext'
 import { events, workshops } from '../data/items'
 import { createBooking } from '../services/api'
 
@@ -14,6 +15,7 @@ const initialForm = {
 }
 
 function BookingForm() {
+  const { isOnline } = useAppContext()
   const [formData, setFormData] = useState(initialForm)
   const [errors, setErrors] = useState({})
   const [successMessage, setSuccessMessage] = useState('')
@@ -106,6 +108,12 @@ function BookingForm() {
 
   return (
     <form className="app-panel space-y-6" onSubmit={handleSubmit} noValidate>
+      {!isOnline && (
+        <div className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-200" role="status">
+          You are offline. Booking submission requires a connection to the backend.
+        </div>
+      )}
+
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="booking-name" className="form-label">Full name</label>
@@ -195,7 +203,7 @@ function BookingForm() {
       </div>
 
       <div className="flex flex-col gap-3 border-t border-slate-100 pt-5 sm:flex-row sm:items-center sm:justify-end">
-        <button type="submit" className="btn-primary w-full sm:w-auto" disabled={isSubmitting}>
+        <button type="submit" className="btn-primary w-full sm:w-auto" disabled={isSubmitting || !isOnline}>
           {isSubmitting ? 'Saving...' : 'Submit booking'}
         </button>
       </div>
