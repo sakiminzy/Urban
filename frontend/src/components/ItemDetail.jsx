@@ -21,7 +21,7 @@ function ItemDetail({ item, backPath, backLabel }) {
           <p className="mt-5 text-lg leading-8 text-slate-600">{item.description}</p>
         </div>
 
-        <dl className="app-panel grid gap-4 sm:grid-cols-2">
+        <dl className="app-panel grid gap-4 sm:grid-cols-3">
           <div>
             <dt className="text-sm font-medium text-slate-500">Price</dt>
             <dd className="mt-1 font-black text-slate-950">{item.price}</dd>
@@ -30,6 +30,14 @@ function ItemDetail({ item, backPath, backLabel }) {
             <dt className="text-sm font-medium text-slate-500">Availability</dt>
             <dd className="mt-1 font-black text-slate-950">{item.availability}</dd>
           </div>
+          {item.date && (
+            <div>
+              <dt className="text-sm font-medium text-slate-500">Date</dt>
+              <dd className="mt-1 font-black text-slate-950">
+                <time dateTime={item.date}>{new Date(item.date).toLocaleDateString()}</time>
+              </dd>
+            </div>
+          )}
         </dl>
       </div>
     </article>

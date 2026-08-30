@@ -3,6 +3,8 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 
 const productsRoutes = require('./routes/products');
+const eventsRoutes = require('./routes/events');
+const workshopsRoutes = require('./routes/workshops');
 const { seedCatalogIfEmpty } = require('./database/seed');
 const errorHandler = require('./middleware/errorHandler');
 
@@ -20,6 +22,8 @@ app.get('/api/health', (req, res) => {
 });
 
 app.use('/api/products', productsRoutes);
+app.use('/api/events', eventsRoutes);
+app.use('/api/workshops', workshopsRoutes);
 
 app.use((req, res) => {
   res.status(404).json({

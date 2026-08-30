@@ -4,7 +4,9 @@ import Home from './pages/Home'
 import Products from './pages/Products'
 import ProductDetail from './pages/ProductDetail'
 import Events from './pages/Events'
+import EventDetail from './pages/EventDetail'
 import Workshops from './pages/Workshops'
+import WorkshopDetail from './pages/WorkshopDetail'
 import NotFound from './pages/NotFound'
 
 function App() {
@@ -18,7 +20,9 @@ function App() {
             <Route path="/products" element={<Products />} />
             <Route path="/products/:id" element={<ProductDetail />} />
             <Route path="/events" element={<Events />} />
+            <Route path="/events/:id" element={<EventDetail />} />
             <Route path="/workshops" element={<Workshops />} />
+            <Route path="/workshops/:id" element={<WorkshopDetail />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </main>

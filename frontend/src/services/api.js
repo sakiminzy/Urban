@@ -25,3 +25,19 @@ export function getProducts() {
 export function getProductById(id) {
   return request(`/products/${id}`)
 }
+
+export function getEvents() {
+  return request('/events')
+}
+
+export function getEventById(id) {
+  return request(`/events/${id}`)
+}
+
+export function getWorkshops() {
+  return request('/workshops')
+}
+
+export function getWorkshopById(id) {
+  return request(`/workshops/${id}`)
+}
