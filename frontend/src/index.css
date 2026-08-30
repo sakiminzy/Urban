@@ -5,6 +5,7 @@
   --color-harvestGreen-50: #edf8f1;
   --color-harvestGreen-700: #20613d;
   --color-earthBrown: #7a4a24;
+  --color-earthBrown-50: #fbf4ec;
   --font-sans: "Urbanist", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
@@ -20,5 +21,41 @@ body {
 @layer components {
   .page-stack {
     @apply space-y-6;
+  }
+
+  .app-panel {
+    @apply rounded-2xl border border-white/70 bg-white/90 p-6 shadow-xl shadow-emerald-950/5 backdrop-blur;
+  }
+
+  .section-kicker {
+    @apply text-sm font-semibold uppercase tracking-wide text-harvestGreen;
+  }
+
+  .page-title {
+    @apply text-4xl font-black leading-tight text-slate-950 sm:text-5xl;
+  }
+
+  .page-copy {
+    @apply max-w-2xl text-base leading-7 text-slate-600 sm:text-lg;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-full bg-harvestGreen px-5 py-3 font-semibold text-white shadow-lg shadow-emerald-900/15 transition duration-200 hover:-translate-y-0.5 hover:bg-harvestGreen-700 hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-harvestGreen focus-visible:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-full border border-slate-200 bg-white/80 px-5 py-3 font-semibold text-slate-700 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-harvestGreen hover:text-harvestGreen focus:outline-none focus-visible:ring-2 focus-visible:ring-harvestGreen focus-visible:ring-offset-2;
+  }
+
+  .form-field {
+    @apply mt-2 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-slate-900 shadow-sm transition placeholder:text-slate-400 focus:border-harvestGreen focus:outline-none focus:ring-4 focus:ring-harvestGreen/15;
+  }
+
+  .form-label {
+    @apply block text-sm font-semibold text-slate-700;
+  }
+
+  .badge {
+    @apply inline-flex items-center rounded-full bg-harvestGreen-50 px-3 py-1 text-xs font-bold uppercase tracking-wide text-harvestGreen;
   }
 }

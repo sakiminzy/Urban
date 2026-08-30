@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import Products from './pages/Products'
+import ProductDetail from './pages/ProductDetail'
 import Events from './pages/Events'
 import Workshops from './pages/Workshops'
 import NotFound from './pages/NotFound'
@@ -15,6 +16,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/products" element={<Products />} />
+            <Route path="/products/:id" element={<ProductDetail />} />
             <Route path="/events" element={<Events />} />
             <Route path="/workshops" element={<Workshops />} />
             <Route path="*" element={<NotFound />} />
