@@ -308,13 +308,41 @@ http://localhost:5000
 Deployed Frontend URL:
 
 ```text
-https://your-deployed-frontend.example
+https://urban-t5kn.vercel.app/
 ```
 
 Deployed Backend URL:
 
 ```text
 https://your-deployed-backend.example
+```
+
+Note: the frontend is deployed and serving the built PWA. The backend is not yet hosted, so deployed pages
+fall back to the bundled local dataset with a "Backend unavailable" notice — this is expected, not a bug,
+and is exactly the fallback behaviour described under Data Handling.
+
+## Submission Structure
+
+This is one evolving codebase: Task 1's SPA became Task 2 & 3's PWA by adding a service worker, manifest, and
+offline handling on top of the same routes and components — not a separate rebuild.
+
+- **Task 1 — SPA**: `frontend/src` (`pages/`, `components/`, `context/`, routing in `App.jsx`). React Router,
+  reusable components, client-side state via Context.
+- **Task 2 & 3 — PWA, REST API, database, and frontend integration**:
+  - PWA additions: `frontend/vite.config.js` (VitePWA/Workbox config), `frontend/public/offline.html`,
+    `frontend/public/icons/`, `frontend/src/components/InstallPrompt.jsx`,
+    `frontend/src/components/NotificationPrompt.jsx`, `frontend/src/utils/notifications.js`
+  - REST API + database: all of `backend/` — routes, controllers, `database/schema.sql`, `database/seed.js`
+  - Frontend integration: `frontend/src/services/api.js` and every page/component that consumes it
+
+### Producing a clean submission zip
+
+`node_modules`, `dist`, build output, and the local SQLite database file are already excluded via
+`.gitignore` and are not tracked in git. To produce a zip containing only the tracked source
+(no framework or build files):
+
+```bash
+git archive --format=zip --output=urban-harvest-hub-submission.zip HEAD
 ```
 
 ## Lighthouse
