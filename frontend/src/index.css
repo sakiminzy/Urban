@@ -1,0 +1,24 @@
+@import "tailwindcss";
+
+@theme {
+  --color-harvestGreen: #287a4b;
+  --color-harvestGreen-50: #edf8f1;
+  --color-harvestGreen-700: #20613d;
+  --color-earthBrown: #7a4a24;
+  --font-sans: "Urbanist", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
+  color: #1f2937;
+  font-family: var(--font-sans);
+}
+
+@layer components {
+  .page-stack {
+    @apply space-y-6;
+  }
+}
